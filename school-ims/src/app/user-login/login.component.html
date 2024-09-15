@@ -1,43 +1,20 @@
 <div class="login-container">
   <div class="login-left">
-    <h1>Paulus Joubert Secondary School</h1>
     <img src="../../assets/school.jpg" alt="School Logo" class="logo">
-    <!-- <form (ngSubmit)="onLogin()" #form="ngForm"> -->
-      <div class="form-group">
-        <input
-          type="email"
-          placeholder="Email"
-          name="email"
-          ngModel
-          required
-          email
-          #email="ngModel"
-          class="input-field"
-        />
-        <p *ngIf="email.touched && email.dirty && email.invalid" class="error-text">Invalid email</p>
+    <h1>Login</h1>
+    <form (ngSubmit)="onSubmit()">
+      <input type="text" placeholder="Username" class="input-field" required>
+      <input type="password" placeholder="Password" class="input-field" required>
+      <div class="button-container">
+        <button type="submit" class="login-btn">Login</button>
+        <button type="button" class="signup-btn" (click)="onSignUp()">Sign Up</button>
       </div>
-
-      <div class="form-group">
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          ngModel
-          required
-          minlength="3"
-          maxlength="12"
-          #password="ngModel"
-          class="input-field"
-        />
-        <p *ngIf="password.touched && password.dirty && password.invalid" class="error-text">Invalid password - must be at least 3 characters</p>
-      </div>
-
-      <button type="submit" class="login-btn">Login</button>
-      <a routerLink="/register" class="signup-btn">Sign Up</a>
       <a href="#" class="forgot-password">Forgot Password?</a>
-    <!-- </form> -->
+    </form>
   </div>
   <div class="login-right">
-    <img src="../../assets/desk.jpg" alt="Classroom" class="boxes">
+    <div class="boxes">
+      <img src="../../assets/desk.jpg" alt="Classroom" class="boxes">
+    </div>
   </div>
 </div>

@@ -2,7 +2,7 @@ nav {
     background-color: #004080; 
     padding: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end; 
     align-items: center;
   }
   
@@ -22,14 +22,13 @@ nav {
     color: white;
     font-weight: bold;
     text-decoration: none;
-    cursor: pointer; 
+    padding: 0.5rem 1rem; 
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   li a:hover {
-    text-decoration: underline;
     background-color: #003366;
-    padding: 0.2rem 0.5rem;
-    border-radius: 5px;
-    cursor: pointer; 
+    border-radius: 5px; 
+    color: #e0e0e0; 
   }
   
