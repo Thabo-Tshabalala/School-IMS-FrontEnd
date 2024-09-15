@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms';   
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule], // Include FormsModule here
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
