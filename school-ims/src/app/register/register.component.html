@@ -1,84 +1,75 @@
 <div class="register-container">
-    <div class="register-left">
-      <h1>Register for Paulus Joubert Secondary School</h1>
-      <img src="assets/school.jpg" alt="School Logo" class="logo">
-      <!-- <form (ngSubmit)="onRegister(form)" #form="ngForm"> -->
-        <div class="form-group">
-          <input
-            type="text"
-            placeholder="First Name"
-            name="firstName"
-            ngModel
-            required
-            #firstName="ngModel"
-            class="input-field"
-          />
-          <p *ngIf="firstName.touched && firstName.dirty && firstName.invalid" class="error-text">First name is required</p>
-        </div>
+    <h1>Register</h1>
+    <!-- <form (ngSubmit)="onSubmit()" #registerForm="ngForm"> -->
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="First Name"
+          name="firstName"
+          ngModel
+          required
+          #firstName="ngModel"
+          class="input-field"
+        />
+        <p *ngIf="firstName.touched && firstName.invalid" class="error-text">First name is required</p>
+      </div>
   
-        <div class="form-group">
-          <input
-            type="text"
-            placeholder="Last Name"
-            name="lastName"
-            ngModel
-            required
-            #lastName="ngModel"
-            class="input-field"
-          />
-          <p *ngIf="lastName.touched && lastName.dirty && lastName.invalid" class="error-text">Last name is required</p>
-        </div>
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="Last Name"
+          name="lastName"
+          ngModel
+          required
+          #lastName="ngModel"
+          class="input-field"
+        />
+        <p *ngIf="lastName.touched && lastName.invalid" class="error-text">Last name is required</p>
+      </div>
   
-        <div class="form-group">
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            ngModel
-            required
-            email
-            #email="ngModel"
-            class="input-field"
-          />
-          <p *ngIf="email.touched && email.dirty && email.invalid" class="error-text">Invalid email</p>
-        </div>
+      <div class="form-group">
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          ngModel
+          required
+          email
+          #email="ngModel"
+          class="input-field"
+        />
+        <p *ngIf="email.touched && email.dirty && email.invalid" class="error-text">Invalid email</p>
+      </div>
   
-        <div class="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            ngModel
-            required
-            minlength="3"
-            maxlength="12"
-            #password="ngModel"
-            class="input-field"
-          />
-          <p *ngIf="password.touched && password.dirty && password.invalid" class="error-text">Invalid password - must be at least 3 characters</p>
-        </div>
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Password"
+          name="password"
+          ngModel
+          required
+          minlength="3"
+          maxlength="12"
+          #password="ngModel"
+          class="input-field"
+        />
+        <p *ngIf="password.touched && password.dirty && password.invalid" class="error-text">Password must be between 3 and 12 characters</p>
+      </div>
   
-        <div class="form-group">
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            ngModel
-            required
-            minlength="3"
-            maxlength="12"
-            #confirmPassword="ngModel"
-            class="input-field"
-          />
-          <p *ngIf="confirmPassword.touched && confirmPassword.dirty && confirmPassword.invalid" class="error-text">Confirm password is required</p>
-        </div>
+      <div class="form-group">
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          name="confirmPassword"
+          ngModel
+          required
+          #confirmPassword="ngModel"
+          class="input-field"
+        />
+        <p *ngIf="confirmPassword.touched && confirmPassword.dirty && confirmPassword.value !== password.value" class="error-text">Passwords must match</p>
+      </div>
   
-        <button type="submit" class="register-btn">Register</button>
-        <a routerLink="/login" class="login-btn">Back to Login</a>
-      <!-- </form> -->
-    </div>
-    <div class="register-right">
-      <img src="assets/desk.jpg" alt="Classroom" class="boxes">
-    </div>
+      <button type="submit" class="register-btn">Register</button>
+    <!-- </form> -->
   </div>
   

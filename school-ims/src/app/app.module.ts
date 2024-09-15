@@ -1,27 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'; // For template-driven forms
-import { RouterModule } from '@angular/router'; // For routing
-
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component'; // Example component
-import { NavigationComponent } from './navigation/navigation.component'; // Import the navigation component
-import { routes } from './app.routes'; // Import your routes
+import { RegisterComponent } from './register/register.component'; // Ensure this path is correct
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+
+// Import routes
+import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
     // AppComponent,
     // LoginComponent,
-    // RegisterComponent, // Declare other components
-    // NavigationComponent // Declare the NavigationComponent
+    // RegisterComponent // Declare your components here
   ],
   imports: [
     BrowserModule,
-    FormsModule, // Include FormsModule for forms
-    RouterModule.forRoot(routes) // Configure routing
+    FormsModule,
+    RouterModule.forRoot(routes) ,// Set up routing
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
   ],
   providers: [],
-//   bootstrap: [AppComponent] // Bootstrap the root component
+  // bootstrap: [AppComponent]
 })
 export class AppModule { }
