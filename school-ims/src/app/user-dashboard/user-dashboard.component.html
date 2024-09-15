@@ -1,0 +1,30 @@
+<app-navigation />
+<div class="dashboard-container">
+    <h1>Inventory Management Dashboard</h1>
+    
+    <section class="stock-overview">
+      <h2>Stock Overview</h2>
+      <p>Total Items: <span class="dashboard-value">{{ totalItems }}</span></p>
+      <p>Low Stock: <span class="dashboard-value">{{ lowStockItems }}</span></p>
+    </section>
+  
+    <section class="recent-orders">
+      <h2>Recent Orders</h2>
+      <ul>
+        <li *ngFor="let order of recentOrders">
+          Order ID: <strong>{{ order.id }}</strong> - Status: {{ order.status }}
+        </li>
+      </ul>
+    </section>
+  
+    <section class="alerts">
+      <h2>Alerts</h2>
+      <p *ngIf="outOfStockItems.length > 0" class="alert-text">Some items are out of stock!</p>
+    </section>
+  
+    <section class="quick-links">
+      <button routerLink="/inventory" class="link-btn">Manage Inventory</button>
+      <button routerLink="/orders" class="link-btn">View Orders</button>
+    </section>
+  </div>
+  

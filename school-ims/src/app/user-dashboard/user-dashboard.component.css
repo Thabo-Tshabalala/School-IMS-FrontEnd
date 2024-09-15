@@ -1,0 +1,69 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    color: #1a73e8;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  section {
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    color: #1a73e8;
+    font-size: 1.5em;
+    border-bottom: 2px solid #1a73e8;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-value {
+    font-weight: bold;
+  }
+  
+  .recent-orders ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .recent-orders li {
+    background-color: #f1f3f4;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alert-text {
+    color: #d93025;
+    font-weight: bold;
+  }
+  
+  .quick-links {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .link-btn {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .link-btn:hover {
+    background-color: #1558d6;
+    transform: scale(1.05);
+  }
+  

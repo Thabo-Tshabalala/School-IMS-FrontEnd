@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component'; // Ensure this path is correct
+import { LoginComponent } from './user-login/login.component';
+import { RegisterComponent } from './user-registration/register.component';  
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 // Import routes
