@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
-import { NavigationComponent } from './navigation/navigation.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component'; // Example component
 
 export const routes: Routes = [
-  { path: '', component: NavigationComponent },  // Default route
-  // Add additional routes as needed
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent } // Example route
 ];

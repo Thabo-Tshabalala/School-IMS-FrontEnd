@@ -1,18 +1,28 @@
 nav {
-    background-color: #004080; /* School theme color */
+    background-color: #004080; 
     padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   ul {
     list-style-type: none;
     display: flex;
     gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  li {
+    list-style: none;
   }
   
   li a {
     color: white;
     font-weight: bold;
     text-decoration: none;
+    cursor: pointer; 
   }
   
   li a:hover {
@@ -20,5 +30,6 @@ nav {
     background-color: #003366;
     padding: 0.2rem 0.5rem;
     border-radius: 5px;
+    cursor: pointer; 
   }
   
