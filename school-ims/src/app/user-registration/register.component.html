@@ -1,38 +1,37 @@
-<div class="register-container">
-    <h1>Register</h1>
-    <!-- <form (ngSubmit)="onSubmit()" #registerForm="ngForm"> -->
-    <div class="form-group">
-        <input type="text" placeholder="First Name" name="firstName" ngModel required #firstName="ngModel"
-            class="input-field" />
-        <p *ngIf="firstName.touched && firstName.invalid" class="error-text">First name is required</p>
-    </div>
-
-    <div class="form-group">
-        <input type="text" placeholder="Last Name" name="lastName" ngModel required #lastName="ngModel"
-            class="input-field" />
-        <p *ngIf="lastName.touched && lastName.invalid" class="error-text">Last name is required</p>
-    </div>
-
-    <div class="form-group">
-        <input type="email" placeholder="Email" name="email" ngModel required email #email="ngModel"
-            class="input-field" />
-        <p *ngIf="email.touched && email.dirty && email.invalid" class="error-text">Invalid email</p>
-    </div>
-
-    <div class="form-group">
-        <input type="password" placeholder="Password" name="password" ngModel required minlength="3" maxlength="12"
-            #password="ngModel" class="input-field" />
-        <p *ngIf="password.touched && password.dirty && password.invalid" class="error-text">Password must be between 3
-            and 12 characters</p>
-    </div>
-
-    <div class="form-group">
-        <input type="password" placeholder="Confirm Password" name="confirmPassword" ngModel required
-            #confirmPassword="ngModel" class="input-field" />
-        <p *ngIf="confirmPassword.touched && confirmPassword.dirty && confirmPassword.value !== password.value"
-            class="error-text">Passwords must match</p>
-    </div>
-
-    <button type="submit" class="register-btn">Register</button>
-    <!-- </form> -->
-</div>
+<div class="registration-container">
+    <h2>Register</h2>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" formControlName="firstName" required>
+        <p *ngIf="form.get('firstName')?.touched && form.get('firstName')?.invalid">Enter First Name</p>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" formControlName="lastName" required>
+        <p *ngIf="form.get('lastName')?.touched && form.get('lastName')?.invalid">Enter Last Name</p>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" required>
+        <p *ngIf="form.get('email')?.touched && form.get('email')?.invalid">Enter a valid email</p>
+        <p *ngIf="customerEmail && form.get('email')?.touched">Email already exists</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" required>
+        <p *ngIf="form.get('password')?.touched && form.get('password')?.invalid">Enter a valid password (3-12 characters)</p>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" required>
+        <p *ngIf="form.get('confirmPassword')?.touched && form.get('confirmPassword')?.invalid">Confirm your password</p>
+        <p *ngIf="form.value.password !== form.value.confirmPassword && form.get('confirmPassword')?.touched">Passwords do not match</p>
+      </div>
+      <button type="submit" class="register-button">Register</button>
+    </form>
+    <p class="login-link">
+      Already have an account? <a routerLink="/login" routerLinkActive="active">Log in here</a>.
+    </p>
+  </div>
+  

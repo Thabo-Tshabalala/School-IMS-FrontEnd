@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router'; // Import Router for navigation
+import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
 
 @Component({
   selector: 'app-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule] // Include CommonModule here
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
@@ -28,14 +29,14 @@ export class ProfileComponent implements OnInit {
 
   onSubmit(): void {
     if (this.profileForm.valid) {
-      // Handle form submission, e.g., save data to server
+     
       console.log('Profile updated', this.profileForm.value);
     }
   }
 
   onLogout(): void {
-    // Implement logout logic here
+  
     console.log('User logged out');
-    this.router.navigate(['/login']); // Navigate to login page
+    this.router.navigate(['/login']); 
   }
 }
