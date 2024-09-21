@@ -1,42 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; // Import Router for navigation
-import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule] // Include CommonModule here
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.minLength(6)]],
     });
   }
 
   ngOnInit(): void {
-    // Load user data here (e.g., from a service)
-    // this.loadUserData();
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      this.profileForm.patchValue({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
+    }
   }
 
   onSubmit(): void {
     if (this.profileForm.valid) {
-     
-      console.log('Profile updated', this.profileForm.value);
+      const updatedUser = this.profileForm.value;
+      console.log('Updated User:', updatedUser);
+      // Implement the logic to save updated user data
     }
   }
 
   onLogout(): void {
-  
-    console.log('User logged out');
-    this.router.navigate(['/login']); 
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']);
   }
 }

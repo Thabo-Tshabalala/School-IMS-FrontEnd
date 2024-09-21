@@ -1,36 +1,36 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms'; 
-import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { CommonModule, NgIf } from '@angular/common';
 
 @Component({
-  standalone: true,
-  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   selector: 'app-login',
+  standalone:true,
+  imports: [FormsModule, RouterOutlet, RouterLink, RouterLinkActive, CommonModule, NgIf],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'], // Optional: Add your styles here
 })
 export class LoginComponent {
-  username: string = '';
+  email: string = '';
   password: string = '';
+  errorMessage: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
-    if (this.username && this.password) {
-     
-      console.log('Username:', this.username);
-      console.log('Password:', this.password);
-
-   
-      this.router.navigate(['/dashboard']);
-    }
-    this.router.navigate(['/dashboard']);
+    this.authService.login(this.email, this.password).subscribe({
+      next: (user) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this.router.navigate(['/dashboard']);
+      },
+      error: () => {
+        this.errorMessage = 'Login failed! Please check your credentials.';
+      },
+    });
   }
 
   onSignUp(): void {
-    // Navigate to the registration page
     this.router.navigate(['/register']);
   }
 }

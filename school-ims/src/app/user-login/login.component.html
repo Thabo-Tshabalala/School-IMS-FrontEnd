@@ -3,13 +3,26 @@
     <img src="../../assets/school.jpg" alt="School Logo" class="logo">
     <h1>Login</h1>
     <form (ngSubmit)="onSubmit()">
-      <input type="text" placeholder="Username" class="input-field" required>
-      <input type="password" placeholder="Password" class="input-field" required>
+      <input 
+        type="text" 
+        placeholder="Email" 
+        class="input-field" 
+        required 
+        [(ngModel)]="email" 
+        name="email" />
+      <input 
+        type="password" 
+        placeholder="Password" 
+        class="input-field" 
+        required 
+        [(ngModel)]="password" 
+        name="password" />
       <div class="button-container">
         <button type="submit" class="login-btn">Login</button>
         <button type="button" class="signup-btn" (click)="onSignUp()">Sign Up</button>
       </div>
       <a href="#" class="forgot-password">Forgot Password?</a>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     </form>
   </div>
   <div class="login-right">
