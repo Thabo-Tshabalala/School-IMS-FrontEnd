@@ -18,6 +18,11 @@
         <p *ngIf="customerEmail && form.get('email')?.touched">Email already exists</p>
       </div>
       <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" formControlName="phone" required>
+        <p *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">Enter a valid phone number</p>
+      </div>
+      <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" id="password" formControlName="password" required>
         <p *ngIf="form.get('password')?.touched && form.get('password')?.invalid">Enter a valid password (3-12 characters)</p>
@@ -33,5 +38,4 @@
     <p class="login-link">
       Already have an account? <a routerLink="/login" routerLinkActive="active">Log in here</a>.
     </p>
-  </div>
-  
+</div>

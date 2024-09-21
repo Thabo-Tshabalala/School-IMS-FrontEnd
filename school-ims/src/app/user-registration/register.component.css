@@ -17,7 +17,7 @@
 }
 
 .form-group {
-  width: 100%;
+  width: 150%;
   max-width: 450px; 
   margin-bottom: 15px;
   display: flex;
@@ -31,8 +31,9 @@
 
 input[type="text"],
 input[type="email"],
-input[type="password"] {
-  width: 150%;
+input[type="password"],
+input[type="tel"] { /* Add input type for phone number */
+  width: 100%; /* Changed to 100% for proper alignment */
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;

@@ -21,6 +21,7 @@ export class UserRegistrationComponent {
     firstName: new FormControl('', { validators: [Validators.required] }),
     lastName: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.required, Validators.email] }),
+    phone: new FormControl('', { validators: [Validators.required] }), // New phone control
     password: new FormControl('', { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(12)] }),
     confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(12)] }),
   });
@@ -39,7 +40,7 @@ export class UserRegistrationComponent {
       lastName: this.form.value.lastName,
       email: this.form.value.email!,
       password: this.form.value.password,
-      phoneNumber: null, 
+      phoneNumber: this.form.value.phone, 
     };
 
     const confirmPassword = this.form.value.confirmPassword;
