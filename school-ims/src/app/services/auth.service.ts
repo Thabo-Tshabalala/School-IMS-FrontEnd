@@ -14,4 +14,8 @@ export class AuthService {
   login(email: string, password: string): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/login`, { email, password });
   }
+    // Method to update user profile
+    updateUser(user: User): Observable<User> {
+      return this.http.put<User>(`${this.apiUrl}/update`, user);
+    }
 }

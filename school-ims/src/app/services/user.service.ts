@@ -19,14 +19,19 @@ export class UserService {
   }
 
   // Get user by email
-  getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/login/${email}`);
+  getUserByEmail(email: string, password: string): Observable<User> {
+    const body = { email, password }; // Create an object to send in the request
+    return this.http.post<User>(`${this.apiUrl}/login`, body); // Use POST for security
   }
-
+  
   // Get all users
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/all`);
   }
+    // Get user by email
+    getSpecificUserByEmail(email: string): Observable<User> {
+      return this.http.get<User>(`${this.apiUrl}/check/${email}`);
+    }
 
   // Update an existing user
   updateUser(user: User): Observable<User> {

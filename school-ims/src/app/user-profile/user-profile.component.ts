@@ -5,12 +5,14 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
+  selector: 'app-login',
+  standalone:true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
+
+
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
 
@@ -19,6 +21,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
+    // Initialize the form
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -28,6 +31,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Load user data from localStorage
     const userData = localStorage.getItem('user');
     if (userData) {
       const user = JSON.parse(userData);
@@ -42,13 +46,22 @@ export class ProfileComponent implements OnInit {
   onSubmit(): void {
     if (this.profileForm.valid) {
       const updatedUser = this.profileForm.value;
-      console.log('Updated User:', updatedUser);
-      // Implement the logic to save updated user data
+      this.authService.updateUser(updatedUser).subscribe({
+        next: (user) => {
+          // Optionally update localStorage or show a success message
+          localStorage.setItem('user', JSON.stringify(user));
+          console.log('Profile updated successfully:', user);
+        },
+        error: () => {
+          console.error('Update failed');
+          // Handle the error case
+        },
+      });
     }
   }
-
   onLogout(): void {
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
+

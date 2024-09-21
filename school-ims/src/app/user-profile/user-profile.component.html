@@ -1,59 +1,60 @@
 <div class="profile-container">
-  <h1>Update Profile</h1>
-
-  <div class="user-info">
-    <h2>User Information</h2>
-    <p><strong>Name:</strong> {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}</p>
-    <p><strong>Email:</strong> {{ profileForm.value.email }}</p>
+    <h1>Update Profile</h1>
+  
+    <div class="user-info">
+      <h2>User Information</h2>
+      <p><strong>Name:</strong> {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}</p>
+      <p><strong>Email:</strong> {{ profileForm.value.email }}</p>
+    </div>
+  
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input
+          id="firstName"
+          formControlName="firstName"
+          type="text"
+          placeholder="First Name"
+        />
+        <p *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-text">First name is required</p>
+      </div>
+  
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input
+          id="lastName"
+          formControlName="lastName"
+          type="text"
+          placeholder="Last Name"
+        />
+        <p *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-text">Last name is required</p>
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input
+          id="email"
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+        />
+        <p *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error-text">Invalid email</p>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Password"
+        />
+        <p *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched" class="error-text">Password must be at least 6 characters</p>
+      </div>
+  
+      <button (click)="onSubmit()" class="submit-btn">Update Profile</button>
+    </form>
+  
+    <button (click)="onLogout()" class="logout-btn">Logout</button>
   </div>
-
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="firstName">First Name:</label>
-      <input
-        id="firstName"
-        formControlName="firstName"
-        type="text"
-        placeholder="First Name"
-      />
-      <p *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched" class="error-text">First name is required</p>
-    </div>
-
-    <div class="form-group">
-      <label for="lastName">Last Name:</label>
-      <input
-        id="lastName"
-        formControlName="lastName"
-        type="text"
-        placeholder="Last Name"
-      />
-      <p *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched" class="error-text">Last name is required</p>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input
-        id="email"
-        formControlName="email"
-        type="email"
-        placeholder="Email"
-      />
-      <p *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error-text">Invalid email</p>
-    </div>
-
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input
-        id="password"
-        formControlName="password"
-        type="password"
-        placeholder="Password"
-      />
-      <p *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched" class="error-text">Password must be at least 6 characters</p>
-    </div>
-
-    <button type="submit" class="submit-btn">Update Profile</button>
-  </form>
-
-  <button (click)="onLogout()" class="logout-btn">Logout</button>
-</div>
+  
