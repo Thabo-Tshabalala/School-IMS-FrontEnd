@@ -44,14 +44,14 @@ export class UserRegistrationComponent {
 
     const confirmPassword = this.form.value.confirmPassword!;
 
-    // Check if passwords match
+   
     if (user.password !== confirmPassword) {
       alert('Passwords do not match!');
-      this.isSubmitting = false; // Reset flag
+      this.isSubmitting = false; 
       return;
     }
 
-    // Proceed with user creation
+    // I need to adjust this to handle all possible error codes
     this.userService.createUser(user).subscribe({
       next: (createdUser: User) => {
         console.log('User registered successfully', createdUser);
@@ -59,12 +59,12 @@ export class UserRegistrationComponent {
         this.router.navigate(['/login']);
       },
       error: (error: HttpErrorResponse) => {
-        if (error.status === 409) { // Assuming 409 for duplicate email
+        if (error.status === 409) { 
           alert('Email already exists');
         } else {
           alert('Registration failed. Please try again.');
         }
-        this.isSubmitting = false; // Reset flag on error
+        this.isSubmitting = false; 
       }
     });
   }
