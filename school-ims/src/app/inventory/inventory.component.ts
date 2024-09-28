@@ -1,43 +1,74 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
-import { Router } from '@angular/router'; // Import Router for navigation
-import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { NavigationComponent } from '../navigation/navigation.component'; 
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { NavigationComponent } from '../navigation/navigation.component';
+import { RequestService } from '../services/request.service'; 
+import { Request } from '../models/request.model'; 
 
 @Component({
   standalone: true,
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.css'],
-  imports: [CommonModule, MatCardModule, NavigationComponent]
+  imports: [CommonModule, FormsModule, NavigationComponent, MatCardModule]
 })
 export class InventoryComponent implements OnInit {
-  products: Product[] = []; // Initialize the products array
+  products: Product[] = [];
+  isLoading = true;
 
-  constructor(private productService: ProductService, private router: Router) {} // Inject the ProductService and Router
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+    private requestService: RequestService 
+  ) {}
 
   ngOnInit(): void {
-    this.loadProducts(); // Fetch products on component initialization
+    this.loadProducts();
   }
 
-  // Fetch products from the service
   loadProducts(): void {
+    this.isLoading = true; 
     this.productService.getProducts().subscribe(
       (data: Product[]) => {
-        this.products = data; // Set products directly without additional properties
+        this.products = data; 
       },
       (error) => {
-        console.error('Error fetching products:', error);
+        console.error('Error loading products', error);
+        alert('There was an error loading products.');
+      },
+      () => {
+        this.isLoading = false;
       }
     );
   }
 
-  // Request product logic
   requestProduct(product: Product): void {
-    alert(`You have requested ${product.name}`); // Notify user of request
-    // Navigate to the requests screen (assuming a route is set for requests)
-    this.router.navigate(['/requests']);
-  }
+    const newRequest: Request = {
+        requestId: null, 
+        productId: product.productId,
+        quantity: 0, 
+        status: 'Pending',
+        imageUrl: product.imageUrl,
+        productName: product.name
+    };
+
+    console.log('Request Payload:', newRequest); 
+
+    this.requestService.createRequest(newRequest).subscribe(
+        () => {
+            console.log('Request saved successfully:', newRequest);
+            alert(`Product "${product.name}" has been requested successfully!`);
+            this.router.navigate(['/requests']);
+        },
+        (error) => {
+            console.error('Error saving request', error);
+            alert('There was an error requesting the product. Please try again.');
+        }
+    );
+}
+
 }

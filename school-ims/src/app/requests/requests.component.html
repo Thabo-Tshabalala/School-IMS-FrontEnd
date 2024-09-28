@@ -1,1 +1,40 @@
-<p>requests works!</p>
+<app-navigation></app-navigation>
+
+<div class="requests-container">
+  <h1>Requests</h1>
+  
+  <div *ngIf="isLoading" class="loading">Loading...</div>
+  
+  <div *ngIf="!isLoading">
+    <form (ngSubmit)="createRequest()" #requestForm="ngForm">
+      <label for="productId">Product ID:</label>
+      <input type="number" id="productId" [(ngModel)]="newRequest.productId" name="productId" required>
+  
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" [(ngModel)]="newRequest.quantity" name="quantity" required>
+  
+      <label for="status">Status:</label>
+      <input type="text" id="status" [(ngModel)]="newRequest.status" name="status" required>
+  
+      <button type="submit" [disabled]="requestForm.invalid">Create Request</button>
+    </form>
+  
+    <!-- Displaying Requested Items -->
+    <ul>
+      <li *ngFor="let request of requests">
+        <div class="request-item">
+          <img [src]="request.imageUrl" alt="{{ request.productName }}" class="product-image">
+          <div class="request-details">
+            <p>ID: {{ request.requestId }}</p>
+            <p>Product Name: {{ request.productName }}</p>
+            <p>Quantity: {{ request.quantity }}</p>
+            <p>Status: {{ request.status }}</p>
+            <!-- Uncomment buttons if you have corresponding methods -->
+            <!-- <button (click)="updateRequest(request)">Update</button>
+            <button (click)="deleteRequest(request.requestId)">Delete</button> -->
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

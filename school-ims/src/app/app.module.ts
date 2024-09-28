@@ -6,13 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 // Import Angular Material modules
-import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
-import { MatButtonModule } from '@angular/material/button'; // Import MatButtonModule for request button
+import { MatCardModule } from '@angular/material/card'; 
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './user-login/login.component';
-import { InventoryComponent } from './inventory/inventory.component'; // Import the InventoryComponent
+import { InventoryComponent } from './inventory/inventory.component'; 
+import { RequestsComponent } from './requests/requests.component'; 
 import { ProductService } from './services/product.service';
+import { RequestService } from './services/request.service'; 
 
 // Import routes
 import { routes } from './app.routes';
@@ -21,7 +23,8 @@ import { routes } from './app.routes';
   declarations: [
     // AppComponent,
     // LoginComponent,
-    // InventoryComponent
+    // InventoryComponent,
+    // RequestsComponent //
   ],
   imports: [
     BrowserModule,
@@ -31,11 +34,11 @@ import { routes } from './app.routes';
     HttpClientModule,
     RouterModule.forRoot(routes),
     
-    // Add Angular Material modules here
-    MatCardModule,  // Import MatCardModule
-    MatButtonModule // Import MatButtonModule for the request button
+
+    MatCardModule,  
+    MatButtonModule 
   ],
-  providers: [ProductService],
+  providers: [ProductService, RequestService], 
   // bootstrap: [AppComponent]
 })
 export class AppModule { }
