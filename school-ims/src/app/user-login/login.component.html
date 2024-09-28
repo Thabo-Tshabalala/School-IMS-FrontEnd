@@ -2,32 +2,39 @@
   <div class="login-left">
     <img src="../../assets/school.jpg" alt="School Logo" class="logo">
     <h1>Login</h1>
-    <form (ngSubmit)="onSubmit()">
+    <form #form="ngForm" (ngSubmit)="onLogin()">
       <input 
-        type="text" 
+        type="email" 
         placeholder="Email" 
         class="input-field" 
         required 
         [(ngModel)]="email" 
-        name="email" />
+        name="email"
+        aria-label="Email" />
+      
       <input 
         type="password" 
         placeholder="Password" 
         class="input-field" 
         required 
         [(ngModel)]="password" 
-        name="password" />
+        name="password"
+        aria-label="Password" />
+      
       <div class="button-container">
         <button type="submit" class="login-btn">Login</button>
         <button type="button" class="signup-btn" (click)="onSignUp()">Sign Up</button>
       </div>
+      
       <a href="#" class="forgot-password">Forgot Password?</a>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      
+      <div *ngIf="empty" class="error-message">Please fill in all fields</div>
     </form>
   </div>
+  
   <div class="login-right">
     <div class="boxes">
-      <img src="../../assets/desk.jpg" alt="Classroom" class="boxes">
+      <img src="../../assets/desk.jpg" alt="Classroom View" class="boxes">
     </div>
   </div>
 </div>
