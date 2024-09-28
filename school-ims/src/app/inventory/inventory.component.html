@@ -1,1 +1,24 @@
-<p>inventory works!</p>
+<app-navigation />
+<div class="inventory-container">
+  <p class="inventory-description">
+    Welcome to the inventory! Here you can browse our available items and request any products you need.
+  </p>
+  <div *ngIf="products.length > 0" class="grid">
+    <mat-card *ngFor="let product of products" class="product-card">
+      <img mat-card-image class="product-image" [src]="product.imageUrl" alt="{{ product.name }}">
+      <mat-card-title>{{ product.name }}</mat-card-title>
+      <mat-card-content>
+        <p>{{ product.description }}</p>
+        <p>Category: {{ product.category }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Stock: {{ product.stockQuantity }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" class="request-btn" (click)="requestProduct(product)">
+          Request
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <p *ngIf="products.length === 0">No products available.</p>
+</div>

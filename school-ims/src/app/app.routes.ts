@@ -4,6 +4,7 @@ import { UserRegistrationComponent } from './user-registration/register.componen
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component'; // Add the User Dashboard component
 import { ProfileComponent } from './user-profile/user-profile.component';
 import { AdminAddItemComponent } from './admin/admin.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect root to login
@@ -11,5 +12,6 @@ export const routes: Routes = [
   { path: 'register', component: UserRegistrationComponent },    // Route for registration page
   { path: 'dashboard', component: UserDashboardComponent }, // Route for dashboard page
   {path:'profile',component:ProfileComponent},
-  {path:'admin', component:AdminAddItemComponent}
+  {path:'admin', component:AdminAddItemComponent},
+  {path:'inventory', component:InventoryComponent}
 ];
