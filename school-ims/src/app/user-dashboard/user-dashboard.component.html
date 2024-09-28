@@ -1,30 +1,112 @@
-<app-navigation />
-<div class="dashboard-container">
-    <h1>Inventory Management Dashboard</h1>
-    
-    <section class="stock-overview">
-      <h2>Stock Overview</h2>
-      <p>Total Items: <span class="dashboard-value">{{ totalItems }}</span></p>
-      <p>Low Stock: <span class="dashboard-value">{{ lowStockItems }}</span></p>
-    </section>
-  
-    <section class="recent-orders">
-      <h2>Recent Orders</h2>
-      <ul>
-        <li *ngFor="let order of recentOrders">
-          Order ID: <strong>{{ order.id }}</strong> - Status: {{ order.status }}
-        </li>
-      </ul>
-    </section>
-  
-    <section class="alerts">
-      <h2>Alerts</h2>
-      <p *ngIf="outOfStockItems.length > 0" class="alert-text">Some items are out of stock!</p>
-    </section>
-  
-    <section class="quick-links">
-      <button routerLink="/inventory" class="link-btn">Manage Inventory</button>
-      <button routerLink="/orders" class="link-btn">View Orders</button>
-    </section>
+<app-navigation/>
+<div class="min-h-screen bg-gray-100 p-8">
+  <nav class="mb-8 flex items-center justify-between">
+    <h1 class="text-3xl font-bold text-blue-600">School Inventory Dashboard</h1>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item>
+        <fa-icon [icon]="faBook" class="mr-2"></fa-icon>
+        Manage Inventory
+      </button>
+      <button mat-menu-item>
+        <fa-icon [icon]="faClipboard" class="mr-2"></fa-icon>
+        View Orders
+      </button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="appMenu">Menu</button>
+  </nav>
+
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Total Items</mat-card-title>
+        <fa-icon [icon]="faBook" class="h-4 w-4 text-muted-foreground"></fa-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold">{{ totalItems }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Low Stock Items</mat-card-title>
+        <fa-icon [icon]="faTriangleExclamation" class="h-4 w-4 text-muted-foreground"></fa-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold">{{ lowStockItems }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Recent Orders</mat-card-title>
+        <fa-icon [icon]="faShoppingCart" class="h-4 w-4 text-muted-foreground"></fa-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold">{{ recentOrders.length }}</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Out of Stock</mat-card-title>
+        <fa-icon [icon]="faChartBar" class="h-4 w-4 text-muted-foreground"></fa-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="text-2xl font-bold">{{ outOfStockItems.length }}</div>
+      </mat-card-content>
+    </mat-card>
   </div>
-  
+
+  <div class="mt-8 grid gap-8 md:grid-cols-2">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Recent Orders</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <ul class="space-y-4">
+          <li *ngFor="let order of recentOrders" class="flex items-center justify-between">
+            <div>
+              <p class="font-medium">Order ID: {{ order.id }}</p>
+              <p class="text-sm text-muted-foreground">Date: {{ order.date }}</p>
+            </div>
+            <span class="px-2 py-1 text-xs font-semibold rounded"
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': order.status === 'Delivered',
+                    'bg-yellow-100 text-yellow-800': order.status === 'Pending',
+                    'bg-blue-100 text-blue-800': order.status !== 'Delivered' && order.status !== 'Pending'
+                  }">
+              {{ order.status }}
+            </span>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Alerts</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="outOfStockItems.length > 0; else inStock">
+          <div class="rounded-md bg-yellow-50 p-4">
+            <div class="flex">
+              <fa-icon [icon]="faTriangleExclamation" class="h-5 w-5 text-yellow-400" aria-hidden="true"></fa-icon>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-yellow-800">Attention needed</h3>
+                <div class="mt-2 text-sm text-yellow-700">
+                  <p>The following items are out of stock:</p>
+                  <ul class="list-disc pl-5 space-y-1 mt-2">
+                    <li *ngFor="let item of outOfStockItems">{{ "Dude" }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #inStock>
+          <p class="text-sm text-green-700">All items are in stock!</p>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
