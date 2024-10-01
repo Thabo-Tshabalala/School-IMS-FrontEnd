@@ -1,50 +1,78 @@
 .requests-container {
-    padding: 20px;
+    margin: 20px;
   }
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-top: 10px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-  }
-  
-  button {
-    margin-top: 10px;
-    padding: 10px 15px;
-  }
-  
-  .loading {
-    font-size: 18px;
-    color: #007bff;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
+  .request-item {
+    display: flex;
+    align-items: center;
     border: 1px solid #ccc;
-    margin: 10px 0;
     padding: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
   }
   
-  p {
-    margin: 5px 0;
+  .product-image {
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+  }
+  
+  .request-details {
+    flex-grow: 1;
+  }
+  
+  .quantity-input {
+    width: 60px;
+    padding: 5px;
+    margin-left: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .remove-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .remove-button:hover {
+    background-color: #ff1a1a;
+  }
+  
+  .create-button {
+    margin-top: 20px; 
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block; 
+
+    margin-left: 15%;
+  }
+  
+  .create-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .create-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
   

@@ -2,33 +2,36 @@
 
 <div class="requests-container">
   <h1>Requests</h1>
-  
+
   <div *ngIf="isLoading" class="loading">Loading...</div>
-  
+
   <div *ngIf="!isLoading">
-    <form (ngSubmit)="createRequest()" #requestForm="ngForm">
-      <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" [(ngModel)]="newRequest.quantity" name="quantity" required>
-  
-      <label for="status">Status:</label>
-      <input type="text" id="status" [(ngModel)]="newRequest.status" name="status" required>
-  
-      <button type="submit" [disabled]="requestForm.invalid">Create Request</button>
-    </form>
-  
-    <!-- showing Requested Items -->
     <ul>
-      <li *ngFor="let request of requests">
-        <div class="request-item">
-          <img [src]="request.imageUrl" alt="{{ request.productName }}" class="product-image">
-          <div class="request-details">
-            <p>ID: {{ request.requestId }}</p>
-            <p>Product Name: {{ request.productName }}</p>
-            <p>Quantity: {{ request.quantity }}</p>
-            <p>Status: {{ request.status }}</p>
-          </div>
+      <li *ngFor="let request of requests" class="request-item">
+        <img [src]="request.product?.imageUrl" alt="{{ request.product?.name }}" class="product-image">
+        <div class="request-details">
+          <p>ID: {{ request.requestId }}</p>
+          <p>Product Name: {{ request.product?.name }}</p>
+          <label for="quantity-{{ request.requestId }}">Quantity:</label>
+          <input
+            type="number"
+            id="quantity-{{ request.requestId }}"
+            [(ngModel)]="request.quantity"
+            name="quantity"
+            class="quantity-input"
+            required
+          >
+          <p>Status: {{ request.status }}</p>
         </div>
+        <button class="remove-button" (click)="removeRequest(request.requestId)">X</button>
       </li>
     </ul>
+
+    <form (ngSubmit)="createRequest()" #requestForm="ngForm">
+      <input type="hidden" [(ngModel)]="newRequest.status" name="status" value="Pending" required>
+      <button type="submit" class="create-button" [disabled]="requestForm.invalid">Create Request</button>
+    </form>
+
+    <div *ngIf="requests.length === 0">No requests available.</div>
   </div>
 </div>

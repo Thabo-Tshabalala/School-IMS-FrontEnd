@@ -88,6 +88,10 @@ export class RequestsComponent implements OnInit {
         }
     );
 }
+removeRequest(requestId: number | null): void {//need to take you to backend
+  this.requests = this.requests.filter(request => request.requestId !== requestId);
+}
+
 
 
 
