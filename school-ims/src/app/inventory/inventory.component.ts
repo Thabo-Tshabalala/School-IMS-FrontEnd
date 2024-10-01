@@ -48,12 +48,12 @@ export class InventoryComponent implements OnInit {
 
   requestProduct(product: Product): void {
     const newRequest: Request = {
-        requestId: null, 
-        productId: product.productId,
-        quantity: 0, 
+        requestId: null,
+        product: product,
+        quantity: 0,
         status: 'Pending',
-        imageUrl: product.imageUrl,
-        productName: product.name
+        productName: product.name,
+        imageUrl: product.imageUrl
     };
 
     console.log('Request Payload:', newRequest); 

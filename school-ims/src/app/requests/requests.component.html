@@ -7,9 +7,6 @@
   
   <div *ngIf="!isLoading">
     <form (ngSubmit)="createRequest()" #requestForm="ngForm">
-      <label for="productId">Product ID:</label>
-      <input type="number" id="productId" [(ngModel)]="newRequest.productId" name="productId" required>
-  
       <label for="quantity">Quantity:</label>
       <input type="number" id="quantity" [(ngModel)]="newRequest.quantity" name="quantity" required>
   
@@ -19,7 +16,7 @@
       <button type="submit" [disabled]="requestForm.invalid">Create Request</button>
     </form>
   
-    <!-- Displaying Requested Items -->
+    <!-- showing Requested Items -->
     <ul>
       <li *ngFor="let request of requests">
         <div class="request-item">
@@ -29,9 +26,6 @@
             <p>Product Name: {{ request.productName }}</p>
             <p>Quantity: {{ request.quantity }}</p>
             <p>Status: {{ request.status }}</p>
-            <!-- Uncomment buttons if you have corresponding methods -->
-            <!-- <button (click)="updateRequest(request)">Update</button>
-            <button (click)="deleteRequest(request.requestId)">Delete</button> -->
           </div>
         </div>
       </li>

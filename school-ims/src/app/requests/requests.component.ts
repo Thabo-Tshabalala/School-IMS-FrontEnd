@@ -17,7 +17,7 @@ import { NavigationComponent } from '../navigation/navigation.component';
 })
 export class RequestsComponent implements OnInit {
   requests: Request[] = [];
-  newRequest: Request = { requestId: null, productId: 0, quantity: 0, status: 'Pending', imageUrl: null, productName: null }; 
+  newRequest: Request = { requestId: null, product: null, quantity: 0, status: 'Pending', imageUrl: null, productName: null }; 
   isLoading = true;
 
   constructor(
@@ -47,9 +47,9 @@ export class RequestsComponent implements OnInit {
 
   loadProductDetails(): void {
     const productRequests = this.requests
-      .filter(request => request.productId != null) 
+      .filter(request => request.requestId != null) 
       .map(request => 
-        this.productService.getProduct(request.productId as number).pipe(
+        this.productService.getProduct(request.requestId as number).pipe(
           map((product: Product) => {
             request.productName = product.name;
             request.imageUrl = product.imageUrl;
@@ -77,7 +77,7 @@ export class RequestsComponent implements OnInit {
       
             this.requests.push(createdRequest);
         
-            this.newRequest = { requestId: null, productId: 0, quantity: 0, status: 'Pending', imageUrl: null, productName: null };
+            this.newRequest = { requestId: null, product: null, quantity: 0, status: 'Pending', imageUrl: null, productName: null };
         },
         (error) => {
             console.error('Error creating request', error);
