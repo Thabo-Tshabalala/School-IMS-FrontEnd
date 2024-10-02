@@ -1,3 +1,4 @@
+<app-navigation/>
 <div class="profile-container">
   <h1>Update Profile</h1>
 
@@ -5,7 +6,7 @@
     <h2>User Information</h2>
     <p><strong>Name:</strong> {{ profileForm.value.firstName }} {{ profileForm.value.lastName }}</p>
     <p><strong>Email:</strong> {{ profileForm.value.email }}</p>
-    <p><strong>Phone:</strong> {{ profileForm.value.phone }}</p> <!-- Display the phone number -->
+    <p><strong>Phone:</strong> {{ profileForm.value.phoneNumber }}</p>
   </div>
 
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
@@ -42,18 +43,7 @@
       <p *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" class="error-text">Invalid email</p>
     </div>
     <div class="form-group">
-      <label for="password">Password:</label>
-      <input
-        id="password"
-        formControlName="password"
-        type="password"
-        placeholder="Password"
-      />
-      <p *ngIf="profileForm.get('password')?.invalid && profileForm.get('password')?.touched" class="error-text">Password must be at least 6 characters</p>
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone Number:</label> <!-- New Phone Number Field -->
+      <label for="phone">Phone Number:</label>
       <input
         id="phone"
         formControlName="phoneNumber"

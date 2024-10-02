@@ -3,18 +3,19 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,NavigationComponent],
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
-  userId: number | null = null; // Define userId property
-  isSubmitting: boolean = false; // Flag to track submission status
+  userId: number | null = null;
+  isSubmitting: boolean = false; 
 
   constructor(
     private fb: FormBuilder,
@@ -34,19 +35,19 @@ export class ProfileComponent implements OnInit {
     const userData = localStorage.getItem('user');
     if (userData) {
       const user = JSON.parse(userData);
-      this.userId = user.userID; // Set the userId here
+      this.userId = user.userID; 
       this.profileForm.patchValue({
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        password: user.password, // Ensure password is not null
+        password: user.password,
       });
     }
   }
 
   onSubmit(): void {
-    if (this.isSubmitting) return; // Prevent further submissions if already submitting
+    if (this.isSubmitting) return; 
 
     console.log('Form values:', this.profileForm.value);
     console.log('Form validity:', this.profileForm.valid);
@@ -58,7 +59,7 @@ export class ProfileComponent implements OnInit {
     });
 
     if (this.profileForm.valid) {
-      this.isSubmitting = true; // Set the flag to indicate submission is in progress
+      this.isSubmitting = true;
 
       const updatedUser = {
         ...this.profileForm.value,
@@ -72,11 +73,11 @@ export class ProfileComponent implements OnInit {
           localStorage.setItem('user', JSON.stringify(user));
           console.log('Profile updated successfully:', user);
           alert('Update successful!');
-          this.isSubmitting = false; // Reset the flag on success
+          this.isSubmitting = false; 
         },
         error: (err) => {
           console.error('Update failed:', err);
-          this.isSubmitting = false; // Reset the flag on error
+          this.isSubmitting = false; 
         },
       });
     } else {
