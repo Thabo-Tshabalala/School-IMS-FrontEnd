@@ -23,9 +23,9 @@ export class UserDashboardComponent {
   totalItems = 1250;
   lowStockItems = 15;
   recentOrders = [
-    { id: 'ORD001', status: 'Delivered', date: '2023-09-15' },
+    { id: 'ORD001', status: 'Approved', date: '2023-09-15' },
     { id: 'ORD002', status: 'Pending', date: '2023-09-14' },
-    { id: 'ORD003', status: 'Processing', date: '2023-09-13' },
+    { id: 'ORD003', status: 'Rejected', date: '2023-09-13' },
   ];
   outOfStockItems = ['Notebooks', 'Pencils'];
 
@@ -35,5 +35,5 @@ export class UserDashboardComponent {
   faChartBar: IconDefinition = faChartBar;
   faClipboard: IconDefinition = faClipboard;
 
-  // Remove faPackage if it was previously defined
+
 }
