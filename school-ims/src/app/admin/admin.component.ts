@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 // import { HeaderComponent } from "../../header/header.component";
 // import { FooterComponent } from "../../footer/footer.component";
 import { Router, RouterLink } from '@angular/router';
+import { NavigationComponent } from '../navigation/navigation.component';
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +14,7 @@ import { Router, RouterLink } from '@angular/router';
   imports: [
     CommonModule, 
     ReactiveFormsModule, 
-    RouterLink, 
+    RouterLink, NavigationComponent
     // HeaderComponent, 
     // FooterComponent
   ],
