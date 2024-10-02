@@ -28,7 +28,7 @@
 
     <form (ngSubmit)="createRequest()" #requestForm="ngForm">
       <input type="hidden" [(ngModel)]="newRequest.status" name="status" value="Pending" required>
-      <button type="submit" class="create-button" [disabled]="requestForm.invalid">Create Request</button>
+      <button *ngIf="requests.length > 0" type="submit" class="create-button" [disabled]="requestForm.invalid">Create Request</button>
     </form>
 
     <div *ngIf="requests.length === 0">No requests available.</div>
