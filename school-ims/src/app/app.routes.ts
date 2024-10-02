@@ -6,6 +6,7 @@ import { ProfileComponent } from './user-profile/user-profile.component';
 import { AdminAddItemComponent } from './admin/admin.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { RequestsComponent } from './requests/requests.component';
+import { OrdersComponent } from './orders/orders.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
@@ -15,5 +16,6 @@ export const routes: Routes = [
   {path:'profile',component:ProfileComponent},
   {path:'admin', component:AdminAddItemComponent},
   {path:'inventory', component:InventoryComponent},
-  {path:'requests', component:RequestsComponent}
+  {path:'requests', component:RequestsComponent},
+  {path: 'orders', component :OrdersComponent}
 ];

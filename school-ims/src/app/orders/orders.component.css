@@ -1,0 +1,118 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  h1 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem; 
+  }
+  h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem; 
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-header {
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .items-center {
+    align-items: center;
+    margin-bottom: 2%;
+  }
+  
+  .space-x-4 > * + * {
+    margin-left: 1rem;
+  }
+  
+  .mb-2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .rounded {
+    border-radius: 0.5rem;
+  }
+  
+  .w-24 {
+    width: 6rem;
+  }
+  
+  .h-24 {
+    height: 6rem;
+  }
+  
+  .object-cover {
+    object-fit: cover;
+  }
+  
+  .icon-package::before {
+    content: '📦'; 
+    font-size: 1rem;
+  }
+  
+  .icon-calendar::before {
+    content: '📅'; 
+    font-size: 1rem;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #fff;
+  }
+  
+  .bg-yellow-500 {
+    background-color: #f59e0b; 
+  }
+  
+  .bg-green-500 {
+    background-color: #22c55e; 
+  }
+  
+  .bg-red-500 {
+    background-color: #ef4444; 
+  }
+  
+  .text-gray-600 {
+    color: #4b5563; 
+  }
+  
+  .text-xl {
+    font-size: 1.25rem; 
+  }
+  
+  .font-bold {
+    font-weight: bold; 
+  }
+  
+  .select {
+    padding: 0.5rem;
+    border: 1px solid #eaeaea;
+    border-radius: 0.25rem;
+  }
+  
