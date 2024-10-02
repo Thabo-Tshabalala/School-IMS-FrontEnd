@@ -33,7 +33,7 @@
   }
   
   .remove-button {
-    background-color: #ff4d4d;
+    background-color: #141c2970;
     color: white;
     border: none;
     border-radius: 50%;
@@ -50,7 +50,7 @@
   }
   
   .remove-button:hover {
-    background-color: #ff1a1a;
+    background-color: #e72344de;
   }
   
   .create-button {
