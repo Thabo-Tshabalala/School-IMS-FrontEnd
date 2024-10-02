@@ -2,6 +2,17 @@
     margin: 20px;
   }
   
+  .requests-container h1 {
+    font-size: 2rem; 
+    color: #333; 
+    text-align: center;
+    margin-bottom: 20px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border-bottom: 2px solid #007bff; 
+    padding-bottom: 10px; 
+  }
+  
   .request-item {
     display: flex;
     align-items: center;
@@ -54,7 +65,7 @@
   }
   
   .create-button {
-    margin-top: 20px; 
+    margin-top: 20px;
     padding: 10px 15px;
     background-color: #007bff;
     color: white;
@@ -62,8 +73,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    display: block; 
-
+    display: block;
     margin-left: 15%;
   }
   

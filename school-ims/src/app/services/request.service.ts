@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Request } from '../models/request.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -45,10 +46,12 @@ export class RequestService {
     );
   }
 
-  // Delete Request
-  deleteRequest(id: number): Observable<boolean> {
-    return this.httpClient.delete<boolean>(`${this.apiUrl}/delete/${id}`).pipe(
-      catchError(this.handleError) 
-    );
-  }
+// Delete Request
+deleteRequest(id: number): Observable<boolean> {
+  return this.httpClient.delete<boolean>(`${this.apiUrl}/delete/${id}`).pipe(
+      catchError(this.handleError),
+      map(() => true) 
+  );
+}
+
 }

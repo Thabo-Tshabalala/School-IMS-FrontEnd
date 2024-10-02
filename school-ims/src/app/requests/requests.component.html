@@ -10,8 +10,7 @@
       <li *ngFor="let request of requests" class="request-item">
         <img [src]="request.product?.imageUrl" alt="{{ request.product?.name }}" class="product-image">
         <div class="request-details">
-          <p>ID: {{ request.requestId }}</p>
-          <p>Product Name: {{ request.product?.name }}</p>
+          <p>{{ request.product?.name }}</p>
           <label for="quantity-{{ request.requestId }}">Quantity:</label>
           <input
             type="number"

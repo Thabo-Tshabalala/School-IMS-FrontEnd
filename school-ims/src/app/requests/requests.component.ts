@@ -88,9 +88,21 @@ export class RequestsComponent implements OnInit {
         }
     );
 }
-removeRequest(requestId: number | null): void {//need to take you to backend
-  this.requests = this.requests.filter(request => request.requestId !== requestId);
+removeRequest(requestId: number | null): void {
+  if (requestId) {
+      this.requestService.deleteRequest(requestId).subscribe({
+          next: (success) => {
+              if (success) {
+                  this.requests = this.requests.filter(request => request.requestId !== requestId);
+              }
+          },
+          error: (error) => {
+              console.error('Error deleting request:', error);
+          }
+      });
+  }
 }
+
 
 
 
