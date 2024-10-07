@@ -56,7 +56,7 @@ export class InventoryComponent implements OnInit {
         imageUrl: product.imageUrl
     };
 
-    console.log('Request Payload:', newRequest); 
+    console.log('Request Payload:', newRequest);
 
     this.requestService.createRequest(newRequest).subscribe(
         () => {
@@ -65,10 +65,16 @@ export class InventoryComponent implements OnInit {
             this.router.navigate(['/requests']);
         },
         (error) => {
-            console.error('Error saving request', error);
-            alert('There was an error requesting the product. Please try again.');
+            if (error.status === 400 && error.error === 'Error: Product has already been requested.') {
+                alert(`Product "${product.name}" has already been requested.`);
+            } else {
+                console.error('Error saving request', error);
+                alert('Error: Product has already been requested.');
+            }
         }
     );
 }
+
+
 
 }
