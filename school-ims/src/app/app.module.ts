@@ -15,6 +15,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { RequestsComponent } from './requests/requests.component'; 
 import { ProductService } from './services/product.service';
 import { RequestService } from './services/request.service'; 
+import { AdminRequestsComponent } from './admin-requests/admin-requests.component'; // Update the path as necessary
 
 // Import routes
 import { routes } from './app.routes';

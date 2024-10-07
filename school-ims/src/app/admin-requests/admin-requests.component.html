@@ -1,0 +1,82 @@
+<div class="container">
+    <h1 class="title">Product Request Summary</h1>
+    <div class="header">
+      <div class="search-bar">
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search products or requesters"
+          class="search-input"
+        />
+      </div>
+      <select [(ngModel)]="itemsPerPage" class="items-per-page-select">
+        <option value="5">5 per page</option>
+        <option value="10">10 per page</option>
+        <option value="20">20 per page</option>
+      </select>
+    </div>
+  
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Number of Items</th>
+          <th>Requester</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of paginatedRequests">
+          <td>{{ request.productName }}</td>
+          <td>{{ request.numberOfItems }}</td>
+          <td>{{ request.requester }}</td>
+          <td>{{ request.date }}</td>
+          <td>
+            <span
+            [ngClass]="{
+              'badge-success': request.status === 'approved',
+              'badge-destructive': request.status === 'declined',
+              'badge-default': request.status === 'pending'
+            }"
+          >
+            {{ request.status | titlecase }}
+          </span>
+          
+          </td>
+          <td>
+            <button
+              (click)="handleApprove(request.id)"
+              [disabled]="request.status !== 'pending'"
+            >
+              Approve
+            </button>
+            <button
+              (click)="handleDecline(request.id)"
+              [disabled]="request.status !== 'pending'"
+            >
+              Decline
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="pagination">
+      <button
+        (click)="setCurrentPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <span>Page {{ currentPage }} of {{ pageCount }}</span>
+      <button
+        (click)="setCurrentPage(currentPage + 1)"
+        [disabled]="currentPage === pageCount"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+  
