@@ -10,6 +10,8 @@ import { NavigationComponent } from '../navigation/navigation.component';
 import { User } from '../models/user.model'; 
 import { forkJoin } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { OrderService } from '../services/orders.service';
+import { Order } from '../models/order.model';
 
 @Component({
   standalone: true,
@@ -28,7 +30,8 @@ export class RequestsComponent implements OnInit {
   constructor(
     private requestService: RequestService,
     private productService: ProductService,
-    private userService: UserService 
+    private userService: UserService,
+    private orderService: OrderService 
   ) {}
 
   ngOnInit(): void {
@@ -84,38 +87,56 @@ export class RequestsComponent implements OnInit {
 
   createRequest(): void {
     this.isLoading = true;
-    this.isOrdering = true; 
+    this.isOrdering = true;
 
-  
-    const updateRequestsObservables = this.requests.map(request => {
-     
-      const requestToUpdate = { ...request, user: this.user };
-  
- 
-      return this.requestService.updateRequest(requestToUpdate).pipe(
-        tap((updatedRequest: Request) => {
-       
-          this.removeRequest(updatedRequest.requestId); 
-        })
-      );
+    const updateRequestsObservables = this.requests.map((request) => {
+        const requestToUpdate = { ...request, user: this.user };
+
+        return this.requestService.updateRequest(requestToUpdate).pipe(
+            tap((updatedRequest: Request) => {
+                this.removeRequest(updatedRequest.requestId);
+            })
+        );
     });
 
- 
     forkJoin(updateRequestsObservables).subscribe(
-      () => {
+        () => {
 
-        alert('All requests updated and removed successfully!'); 
-      },
-      (error) => {
-        console.error('Error updating requests', error);
-        alert('There was an error updating the requests. Please check the console for more details.');
-      },
-      () => {
-        this.isLoading = false; 
-        this.isOrdering = false; 
-      }
+          const order: Order = {
+            items: this.requests.map(request => ({
+                itemId: request.requestId !== null ? request.requestId : 0, 
+                quantity: request.quantity,
+                imageUrl: request.imageUrl !== null ? request.imageUrl : '',
+            })),
+            orderDate: new Date().toISOString().split('T')[0], 
+            user: this.user, 
+            status: 'Pending',
+            quantity: this.requests.reduce((total, request) => total + request.quantity, 0), 
+        };
+        
+        
+            this.orderService.createOrder(order).subscribe(
+                (newOrder) => {
+                    alert('Order created successfully!');
+                    console.log('New Order:', newOrder);
+                },
+                (error) => {
+                    console.error('Error creating order', error);
+                    alert('There was an error creating the order. Please check the console for more details.');
+                }
+            );
+        },
+        (error) => {
+            console.error('Error updating requests', error);
+            alert('There was an error updating the requests. Please check the console for more details.');
+        },
+        () => {
+            this.isLoading = false;
+            this.isOrdering = false;
+        }
     );
-  }
+}
+
 
   removeRequest(requestId: number | null): void {
     if (requestId) {
