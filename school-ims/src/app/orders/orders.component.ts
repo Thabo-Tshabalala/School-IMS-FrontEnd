@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { CommonModule } from '@angular/common';
-
-interface InventoryRequest {
-  id: number;
-  image: string;
-  quantity: number;
-  status: string;
-  date: string;
-}
+import { OrderService } from '../services/orders.service'; 
+import { Order } from '../models/order.model'; 
+import { User } from '../models/user.model'; // Adjust the import based on your actual User model location
 
 @Component({
   standalone: true,
@@ -18,34 +13,72 @@ interface InventoryRequest {
   imports: [NavigationComponent, CommonModule],
 })
 export class OrdersComponent implements OnInit {
-  requests: InventoryRequest[] = [];
-  filter: string = 'All';
-
-  statusColors: { [key: string]: string } = {
+  requests: Order[] = []; 
+  filter: 'All' | 'Pending' | 'Approved' | 'Rejected' = 'All';
+  
+  statusColors: { [key in Order['status']]: string } = {
     Pending: 'bg-yellow-500',
     Approved: 'bg-green-500',
     Rejected: 'bg-red-500',
   };
 
-  constructor() {
-    this.requests = [
-      { id: 1, image: 'https://www.moollafurniture.co.za/cdn/shop/products/Steel_Frame_Chair-_Blue.jpg?v=1618525445', quantity: 2, status: 'Approved', date: '2023-05-15' },
-      { id: 2, image: 'https://officegroup.co.za/wp-content/uploads/2018/05/school-desk-double.jpg', quantity: 1, status: 'Pending', date: '2023-05-18' },
-      { id: 3, image: 'https://www.moollafurniture.co.za/cdn/shop/products/Steel_Frame_Chair-_Blue.jpg?v=1618525445', quantity: 3, status: 'Rejected', date: '2023-05-20' },
-      { id: 4, image: 'https://officegroup.co.za/wp-content/uploads/2018/05/school-desk-double.jpg', quantity: 1, status: 'Pending', date: '2023-05-22' },
-    ];
+  constructor(private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.fetchOrdersForUser(); 
   }
 
-  ngOnInit(): void {}
+fetchOrdersForUser(): void {
+  this.getUserFromLocalDb().then((user: User | null) => {
+      if (user) {
+          const userID = user.userID;
 
-  get filteredRequests(): InventoryRequest[] { 
-    return this.filter === 'All' 
-      ? this.requests 
-      : this.requests.filter(request => request.status === this.filter); 
+          if (userID !== null && userID !== undefined) {
+              this.orderService.getOrdersByUserId(userID).subscribe(
+                  (orders: Order[]) => {
+                      console.log('Fetched Orders:', JSON.stringify(orders, null, 2));
+                      this.requests = orders.filter(order => order.user?.userID !== undefined);
+
+                    
+                      console.log('Filtered Requests:', JSON.stringify(this.requests, null, 2));
+                  },
+                  (error) => {
+                      console.error('Error fetching orders:', error);
+                  }
+              );
+          } else {
+              console.error('User ID is null or undefined');
+          }
+      } else {
+          console.error('User not found in local database');
+      }
+  }).catch(err => {
+      console.error('Error retrieving user from local database:', err);
+  });
+}
+
+
+
+  getUserFromLocalDb(): Promise<User | null> {
+    return new Promise((resolve, reject) => {
+
+      const userJson = localStorage.getItem('user');
+      if (userJson) {
+        resolve(JSON.parse(userJson)); 
+      } else {
+        resolve(null); 
+      }
+    });
+  }
+  
+  get filteredRequests(): Order[] {
+    return this.filter === 'All'
+      ? this.requests
+      : this.requests.filter(request => request.status === this.filter);
   }
 
   onFilterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement; 
-    this.filter = selectElement.value; 
+    this.filter = selectElement.value as 'All' | 'Pending' | 'Approved' | 'Rejected'; 
   }
 }

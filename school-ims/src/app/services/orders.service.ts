@@ -15,6 +15,17 @@ export class OrderService {
   createOrder(order: Order): Observable<Order> {
     return this.httpClient.post<Order>(`${this.apiUrl}/create`, order);
   }
+  
+  getOrdersByUserId(userId: string): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(`${this.apiUrl}/getByUserId/${userId}`); 
+    
+  }
+  
 
-  //To do , add 1 more api to view orders, need to think more abou this
+    // Get All Orders
+    getAllOrders(): Observable<Order[]> {
+      return this.httpClient.get<Order[]>(`${this.apiUrl}/getAll`);
+    }
+
+  //Todo admin-ord
 }

@@ -18,18 +18,22 @@ export class UserService {
     });
   }
 
-  
   public getUser(email: string | undefined | null): Observable<User> {
     if (!email) {
-      throw new Error("Email must be provided to get a user");
+      // Return an observable that emits an error
+      return new Observable<User>((observer) => {
+        observer.error(new Error("Email must be provided to get a user"));
+      });
     }
+    
+    // Proceed with the HTTP request if the email is valid
     return this.http.get<User>(`${this.apiUrl}/login/${email}`);
   }
+  
 
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/all`);
   }
-
 
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/update`, user, {
@@ -63,10 +67,12 @@ export class UserService {
   public getUserLocal(): User | null {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-
       const user: User = JSON.parse(storedUser);
       return user;
     }
     return null;
   }
+
+
+  
 }

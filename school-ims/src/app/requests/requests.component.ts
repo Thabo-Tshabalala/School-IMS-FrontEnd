@@ -22,10 +22,19 @@ import { Order } from '../models/order.model';
 })
 export class RequestsComponent implements OnInit {
   requests: Request[] = [];
-  newRequest: Request = { requestId: null, product: null, user: null, quantity: 0, status: 'Pending', imageUrl: null, productName: null }; 
+  filteredRequests: Request[] = []; 
+  newRequest: Request = { 
+    requestId: null, 
+    product: null, 
+    user: null, 
+    quantity: 0, 
+    status: 'Pending', 
+  }; 
+
   isLoading = true;
   isOrdering = false; 
   user: User | null = null;
+  products: Product[] = [];
 
   constructor(
     private requestService: RequestService,
@@ -43,7 +52,6 @@ export class RequestsComponent implements OnInit {
     this.user = this.userService.getUserLocal();
     if (!this.user) {
       console.error('No user found in local storage');
-   
     }
   }
 
@@ -51,8 +59,8 @@ export class RequestsComponent implements OnInit {
     this.isLoading = true;
     this.requestService.getRequests().subscribe(
       (data: Request[]) => {
-       
         this.requests = data.filter(request => request.user?.email === this.user?.email); 
+        this.filteredRequests = this.requests; 
         this.loadProductDetails(); 
       },
       (error) => {
@@ -70,8 +78,9 @@ export class RequestsComponent implements OnInit {
       .map(request => 
         this.productService.getProduct(request.product?.productId as number).pipe(
           map((product: Product) => {
-            request.productName = product.name;
-            request.imageUrl = product.imageUrl;
+      
+            request.quantity = product.stockQuantity ?? 0;
+            this.products.push(product); 
           })
         )
       );
@@ -90,53 +99,46 @@ export class RequestsComponent implements OnInit {
     this.isOrdering = true;
 
     const updateRequestsObservables = this.requests.map((request) => {
-        const requestToUpdate = { ...request, user: this.user };
+      const requestToUpdate = { ...request, user: this.user };
 
-        return this.requestService.updateRequest(requestToUpdate).pipe(
-            tap((updatedRequest: Request) => {
-                this.removeRequest(updatedRequest.requestId);
-            })
-        );
+      return this.requestService.updateRequest(requestToUpdate).pipe(
+        tap((updatedRequest: Request) => {
+          this.removeRequest(updatedRequest.requestId);
+        })
+      );
     });
 
     forkJoin(updateRequestsObservables).subscribe(
-        () => {
-
-          const order: Order = {
-            items: this.requests.map(request => ({
-                itemId: request.requestId !== null ? request.requestId : 0, 
-                quantity: request.quantity,
-                imageUrl: request.imageUrl !== null ? request.imageUrl : '',
-            })),
-            orderDate: new Date().toISOString().split('T')[0], 
-            user: this.user, 
-            status: 'Pending',
-            quantity: this.requests.reduce((total, request) => total + request.quantity, 0), 
+      () => {
+        const order: Order = {
+          orderDate: new Date().toISOString().split('T')[0], 
+          user: this.user, 
+          status: 'Pending', 
+          quantity: this.requests.reduce((total, request) => total + (request.quantity || 0), 0),
+          product: this.products.length > 0 ? this.products[0] : null, 
         };
-        
-        
-            this.orderService.createOrder(order).subscribe(
-                (newOrder) => {
-                    alert('Order created successfully!');
-                    console.log('New Order:', newOrder);
-                },
-                (error) => {
-                    console.error('Error creating order', error);
-                    alert('There was an error creating the order. Please check the console for more details.');
-                }
-            );
-        },
-        (error) => {
-            console.error('Error updating requests', error);
-            alert('There was an error updating the requests. Please check the console for more details.');
-        },
-        () => {
-            this.isLoading = false;
-            this.isOrdering = false;
-        }
-    );
-}
 
+        this.orderService.createOrder(order).subscribe(
+          (newOrder) => {
+            alert('Order created successfully!');
+            console.log('New Order:', newOrder);
+          },
+          (error) => {
+            console.error('Error creating order', error);
+            alert('There was an error creating the order. Please check the console for more details.');
+          }
+        );
+      },
+      (error) => {
+        console.error('Error updating requests', error);
+        alert('There was an error updating the requests. Please check the console for more details.');
+      },
+      () => {
+        this.isLoading = false;
+        this.isOrdering = false;
+      }
+    );
+  }
 
   removeRequest(requestId: number | null): void {
     if (requestId) {

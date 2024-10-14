@@ -1,8 +1,8 @@
 export interface User {
-    userID: number | undefined | null;  // Corresponds to long userID
-    firstName: string | undefined | null; // Corresponds to String firstName
-    lastName: string | undefined | null;  // Corresponds to String lastName
-    phoneNumber: string | undefined | null; // Corresponds to String phoneNumber
-    email: string | undefined | null;       // Corresponds to String email
-    password: string | undefined | null;    // Corresponds to String password
+    userID: string | undefined | null;  
+    firstName: string | undefined | null; 
+    lastName: string | undefined | null;  
+    phoneNumber: string | undefined | null; 
+    email: string | undefined | null;      
+    password: string | undefined | null;    
 }
