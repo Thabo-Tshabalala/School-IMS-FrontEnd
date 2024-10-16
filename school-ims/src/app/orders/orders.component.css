@@ -83,20 +83,24 @@
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.875rem;
-    color: #fff;
-  }
-  
-  .bg-yellow-500 {
     background-color: #f59e0b; 
+    color: #fffffffb; 
   }
   
-  .bg-green-500 {
+  .badge-approved {
     background-color: #22c55e; 
   }
   
-  .bg-red-500 {
+  .badge-rejected {
     background-color: #ef4444; 
   }
+  
+  .badge-pending {
+    background-color: #f59e0b; 
+  }
+  
+
+
   
   .text-gray-600 {
     color: #4b5563; 

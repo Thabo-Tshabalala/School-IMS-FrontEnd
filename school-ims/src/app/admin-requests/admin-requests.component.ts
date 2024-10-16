@@ -1,16 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
-
-interface Request {
-  id: number;
-  productName: string;
-  numberOfItems: number;
-  requester: string;
-  date: string;
-  status: string;
-}
+import { OrderService } from '../services/orders.service'; 
+import { Order } from '../models/order.model'; 
 
 @Component({
   standalone: true,
@@ -19,51 +12,67 @@ interface Request {
   templateUrl: './admin-requests.component.html',
   styleUrls: ['./admin-requests.component.css']
 })
-export class AdminRequestsComponent {
+export class AdminRequestsComponent implements OnInit {
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 5;
 
-  requests: Request[] = [
-    { id: 1, productName: 'Whiteboard', numberOfItems: 5, requester: 'John Doe', date: '2023-06-01', status: 'pending' },
-    { id: 2, productName: 'Projector', numberOfItems: 3, requester: 'Jane Smith', date: '2023-06-02', status: 'approved' },
-    { id: 3, productName: 'Laptop', numberOfItems: 10, requester: 'Bob Johnson', date: '2023-06-03', status: 'declined' },
-    { id: 4, productName: 'Textbooks', numberOfItems: 7, requester: 'Alice Brown', date: '2023-06-04', status: 'pending' },
-    { id: 5, productName: 'Art Supplies', numberOfItems: 8, requester: 'Charlie Davis', date: '2023-06-05', status: 'pending' },
-    { id: 6, productName: 'Science Lab Equipment', numberOfItems: 2, requester: 'Eva White', date: '2023-06-06', status: 'pending' },
-    { id: 7, productName: 'Gym Equipment', numberOfItems: 15, requester: 'Frank Miller', date: '2023-06-07', status: 'approved' },
-    { id: 8, productName: 'Stationery Supplies', numberOfItems: 6, requester: 'Grace Lee', date: '2023-06-08', status: 'pending' },
-    { id: 9, productName: 'Desktop Computers', numberOfItems: 4, requester: 'Henry Wilson', date: '2023-06-09', status: 'declined' },
-    { id: 10, productName: 'Classroom Chairs', numberOfItems: 12, requester: 'Ivy Chen', date: '2023-06-10', status: 'pending' },
-  ];
-  
+  requests: Order[] = []; 
 
-  constructor(private location: Location) {} 
+  constructor(private location: Location, private orderService: OrderService) {}
 
-  get filteredRequests(): Request[] {
+  ngOnInit(): void {
+    this.loadOrders(); 
+  }
+
+  loadOrders(): void {
+    this.orderService.getAllOrders().subscribe({
+      next: (orders) => {
+        this.requests = orders; 
+      },
+      error: (err) => {
+        console.error('Failed to load orders:', err);
+      }
+    });
+  }
+
+  get filteredRequests(): Order[] {
     return this.requests.filter(req =>
-      req.productName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      req.requester.toLowerCase().includes(this.searchTerm.toLowerCase())
+      req.orderDate.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
   handleApprove(id: number): void {
-    this.requests = this.requests.map(req =>
-      req.id === id ? { ...req, status: 'approved' } : req
-    );
+    this.orderService.approveOrder(id).subscribe({
+      next: (updatedOrder) => {
+        this.requests = this.requests.map(req =>
+          req.orderId === updatedOrder.orderId ? updatedOrder : req
+        );
+      },
+      error: (err) => {
+        console.error('Failed to approve order:', err);
+      }
+    });
   }
 
   handleDecline(id: number): void {
-    this.requests = this.requests.map(req =>
-      req.id === id ? { ...req, status: 'declined' } : req
-    );
+    this.orderService.declineOrder(id).subscribe({
+      next: (updatedOrder) => {
+        this.requests = this.requests.map(req =>
+          req.orderId === updatedOrder.orderId ? updatedOrder : req
+        );
+      },
+      error: (err) => {
+        console.error('Failed to decline order:', err);
+      }
+    });
   }
 
   setCurrentPage(page: number): void {
     this.currentPage = page;
   }
 
-  get paginatedRequests(): Request[] {
+  get paginatedRequests(): Order[] {
     const indexOfLastItem = this.currentPage * this.itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - this.itemsPerPage;
     return this.filteredRequests.slice(indexOfFirstItem, indexOfLastItem);

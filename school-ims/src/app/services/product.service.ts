@@ -20,6 +20,15 @@ export class ProductService {
   getProduct(id: number): Observable<Product> {
     return this.httpClient.get<Product>(`${this.apiUrl}/read/${id}`);
   }
+  // public getProductLocal(): Product | null {
+  //   const storedUser = localStorage.getItem('user');
+  //   if (storedUser) {
+  //     const user: Product = JSON.parse(storedUser);
+  //     return user;
+  //   }
+  //   return null;
+  // }
+
 
   // Read All
   getProducts(): Observable<Product[]> {
