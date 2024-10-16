@@ -4,11 +4,6 @@
   <p class="inventory-description">
     Welcome to the inventory! Here you can browse our available items and request any products you need.
   </p>
-
-  <!-- Uncomment if you want to use the Requests button
-  <button mat-raised-button color="accent" routerLink="/requests" class="navigate-requests-btn">
-    Go to Requests
-  </button> -->
   
   <div *ngIf="products.length > 0" class="grid">
     <mat-card *ngFor="let product of products" class="product-card">
@@ -17,7 +12,6 @@
       <mat-card-content>
         <p>{{ product.description }}</p>
         <p>Category: {{ product.category }}</p>
-        <p>Price: ${{ product.price }}</p>
         <p>Stock: {{ product.stockQuantity }}</p>
       </mat-card-content>
       <mat-card-actions>
