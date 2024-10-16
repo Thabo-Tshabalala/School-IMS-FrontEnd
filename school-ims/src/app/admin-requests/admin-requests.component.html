@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="title">Items Request </h1>
+    <h1 class="title">Items Request</h1>
     
     <button class="btn btn-secondary" (click)="goBack()">
         <i class="fas fa-arrow-left"></i> Back
@@ -36,7 +36,6 @@
             <tr *ngFor="let request of paginatedRequests">
                 <td>{{ request.product?.name }}</td>
                 <td>{{ request.quantity }}</td>
-
                 <td>{{ request.user?.firstName }}</td>
                 <td>{{ request.orderDate }}</td>
                 <td>
@@ -51,19 +50,21 @@
                     </span>
                 </td>
                 <td>
-                    <!-- <button
-                        (click)="handleApprove(request.)"
-                        [disabled]="request.status !== 'pending'"
-                    > -->
-                        <!-- Approve
+                    <button
+                        (click)="handleApprove(request.orderId!)"
+                        [disabled]="request.status.trim().toLowerCase() !== 'pending'"
+                    >
+                        Approve
                     </button>
                     <button
-                        (click)="handleDecline(request.id)"
-                        [disabled]="request.status !== 'pending'"
+                        (click)="handleDecline(request.orderId!)"
+                        [disabled]="request.status.trim().toLowerCase() !== 'pending'"
                     >
                         Decline
-                    </button> -->
+                    </button>
                 </td>
+                
+                
             </tr>
         </tbody>
     </table>

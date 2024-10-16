@@ -78,8 +78,8 @@ export class InventoryComponent implements OnInit {
       requestId: null,
       user: this.currentUser, 
       product: product,
-      quantity: 1, 
-      status: 'Pending',
+      quantity: 0, 
+      status: 'pending',
     };
 
     console.log('Request Payload:', newRequest);

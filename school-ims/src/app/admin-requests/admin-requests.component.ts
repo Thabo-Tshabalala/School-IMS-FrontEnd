@@ -1,10 +1,9 @@
-// admin-requests.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
-import { OrderService } from '../services/orders.service'; // Adjust the import path as necessary
-import { Order } from '../models/order.model'; // Adjust the import path as necessary
+import { OrderService } from '../services/orders.service'; 
+import { Order } from '../models/order.model'; 
 
 @Component({
   standalone: true,
@@ -39,22 +38,34 @@ export class AdminRequestsComponent implements OnInit {
 
   get filteredRequests(): Order[] {
     return this.requests.filter(req =>
-      req.orderDate.toLowerCase().includes(this.searchTerm.toLowerCase())
-      // Uncomment and modify the following line if you want to filter by imageUrl as well
-      // || (req.items.length > 0 && req.items[0].imageUrl.toLowerCase().includes(this.searchTerm.toLowerCase()))
+      req.orderDate.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
   handleApprove(id: number): void {
-    this.requests = this.requests.map(req =>
-      req.orderId === id ? { ...req, status: 'approved' } : req
-    );
+    this.orderService.approveOrder(id).subscribe({
+      next: (updatedOrder) => {
+        this.requests = this.requests.map(req =>
+          req.orderId === updatedOrder.orderId ? updatedOrder : req
+        );
+      },
+      error: (err) => {
+        console.error('Failed to approve order:', err);
+      }
+    });
   }
 
   handleDecline(id: number): void {
-    this.requests = this.requests.map(req =>
-      req.orderId === id ? { ...req, status: 'declined' } : req
-    );
+    this.orderService.declineOrder(id).subscribe({
+      next: (updatedOrder) => {
+        this.requests = this.requests.map(req =>
+          req.orderId === updatedOrder.orderId ? updatedOrder : req
+        );
+      },
+      error: (err) => {
+        console.error('Failed to decline order:', err);
+      }
+    });
   }
 
   setCurrentPage(page: number): void {

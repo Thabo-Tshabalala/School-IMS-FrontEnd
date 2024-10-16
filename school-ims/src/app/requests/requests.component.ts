@@ -113,7 +113,7 @@ export class RequestsComponent implements OnInit {
         const order: Order = {
           orderDate: new Date().toISOString().split('T')[0], 
           user: this.user, 
-          status: 'Pending', 
+          status: 'pending', 
           quantity: this.requests.reduce((total, request) => total + (request.quantity || 0), 0),
           product: this.products.length > 0 ? this.products[0] : null, 
         };
@@ -121,7 +121,7 @@ export class RequestsComponent implements OnInit {
         this.orderService.createOrder(order).subscribe(
           (newOrder) => {
             alert('Order created successfully!');
-            console.log('New Order:', newOrder);
+            console.log('New Order Here :', newOrder);
           },
           (error) => {
             console.error('Error creating order', error);
