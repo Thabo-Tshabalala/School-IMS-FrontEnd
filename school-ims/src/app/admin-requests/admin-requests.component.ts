@@ -37,8 +37,10 @@ export class AdminRequestsComponent implements OnInit {
   }
 
   get filteredRequests(): Order[] {
-    return this.requests.filter(req =>
-      req.orderDate.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
+    return this.requests.filter(req => 
+      req.product?.name!.toString().toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      req.user?.firstName!.toLowerCase().includes(this.searchTerm.toLowerCase()) ||         
+      req.orderDate.toString().toLowerCase().includes(this.searchTerm.toLowerCase())     
     );
   }
 

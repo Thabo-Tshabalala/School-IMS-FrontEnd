@@ -16,7 +16,7 @@ import html2canvas from 'html2canvas';
 })
 export class OrdersComponent implements OnInit {
   requests: Order[] = []; 
-  filter: 'All' | 'Pending' | 'Approved' | 'Rejected' = 'All';
+  filter: 'All' | 'pending' | 'approved' | 'declined' = 'All';
   
   statusColors: { [key: string]: string } = {
     approved: 'badge-approved',
@@ -68,7 +68,7 @@ export class OrdersComponent implements OnInit {
 
   onFilterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement; 
-    this.filter = selectElement.value as 'All' | 'Pending' | 'Approved' | 'Rejected'; 
+    this.filter = selectElement.value as 'All' | 'pending' | 'approved' | 'declined'; 
   }
 
   // Method to generate and download the PDF
