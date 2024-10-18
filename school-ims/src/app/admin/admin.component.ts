@@ -103,9 +103,15 @@ export class AdminComponent implements OnInit {
   onDeleteProduct(productId: number | null): void {
     if (productId !== null) {
       const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        data: { message: 'Deleting this product may result in changes to associated orders. Are you sure you want to delete this product?' }
+        data: {
+          title: 'Confirm Deletion',  
+          message: 'Deleting this product may result in changes to associated orders. Are you sure you want to delete this product?',
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          confirmButtonColor: 'warn',
+        }
       });
-
+  
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.productService.deleteProduct(productId).subscribe(
@@ -122,6 +128,7 @@ export class AdminComponent implements OnInit {
       });
     }
   }
+  
 
   resetForm(): void {
     this.productForm.reset();
