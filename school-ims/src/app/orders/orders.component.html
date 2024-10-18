@@ -7,9 +7,9 @@
     <p class="text-gray-600">Showing {{ filteredRequests.length }} orders</p>
     <select (change)="onFilterChange($event)" class="w-[180px] select">
       <option value="All">All</option>
-      <option value="Pending">Pending</option>
-      <option value="Approved">Approved</option>
-      <option value="Rejected">Rejected</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="declined">Rejected</option>
     </select>
   </div>
 
