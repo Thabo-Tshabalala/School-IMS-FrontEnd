@@ -97,17 +97,29 @@ export class RequestsComponent implements OnInit {
   createRequest(): void {
     this.isLoading = true;
     this.isOrdering = true;
-
+  
+    const outOfStockRequests = this.requests.filter((request) => {
+      const productInStock = this.products.find(product => product.productId === request.requestId);
+      return productInStock && request.quantity > productInStock.stockQuantity!;
+    });
+  
+    if (outOfStockRequests.length > 0) {
+      alert('Nah, we can’t do that. Some requested items exceed available stock.');
+      this.isLoading = false;
+      this.isOrdering = false;
+      return;
+    }
+  
     const updateRequestsObservables = this.requests.map((request) => {
       const requestToUpdate = { ...request, user: this.user };
-
+  
       return this.requestService.updateRequest(requestToUpdate).pipe(
         tap((updatedRequest: Request) => {
           this.removeRequest(updatedRequest.requestId);
         })
       );
     });
-
+  
     forkJoin(updateRequestsObservables).subscribe(
       () => {
         const order: Order = {
@@ -117,7 +129,7 @@ export class RequestsComponent implements OnInit {
           quantity: this.requests.reduce((total, request) => total + (request.quantity || 0), 0),
           product: this.products.length > 0 ? this.products[0] : null,
         };
-
+  
         this.orderService.createOrder(order).subscribe(
           (newOrder) => {
             alert('Order created successfully!');
@@ -140,6 +152,7 @@ export class RequestsComponent implements OnInit {
       }
     );
   }
+  
 
   removeRequest(requestId: number | null): void {
     if (requestId) {
