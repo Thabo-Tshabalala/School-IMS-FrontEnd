@@ -26,10 +26,7 @@
       </li>
     </ul>
 
-    <form (ngSubmit)="createRequest()" #requestForm="ngForm">
-      <input type="hidden" [(ngModel)]="newRequest.status" name="status" value="Pending" required>
-      <button *ngIf="requests.length > 0" type="submit" class="create-button" [disabled]="requestForm.invalid">Create Request</button>
-    </form>
+    <button *ngIf="requests.length > 0" class="create-button" (click)="createRequest()">Order</button>
 
     <div *ngIf="requests.length === 0">No requests available.</div>
   </div>

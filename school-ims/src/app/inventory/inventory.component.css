@@ -45,6 +45,7 @@ nav {
   padding: 1rem;
   background-color: white;
   transition: transform 0.1s;
+  height: 100%; /* Ensures all cards have the same height */
 }
 
 .product-card:hover {
@@ -60,7 +61,7 @@ nav {
 }
 
 mat-card-title {
-  font-size: 1rem;
+  font-size: 1rem; /* Set a consistent font size */
   font-weight: 500;
   margin-bottom: 0.4rem;
   text-align: center; /* Ensure titles are aligned */
@@ -99,6 +100,7 @@ button.request-btn {
   transition: background-color 0.3s ease;
   width: 100%;
   height: 40px;
+  margin-top: auto; /* Ensures button stays at the bottom */
 }
 
 button.request-btn:hover {
@@ -109,20 +111,7 @@ button:focus {
   outline: none;
 }
 
-/* Ensures all product cards are the same height as the tallest card */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1.5rem;
-}
-
-.product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
-}
-
+/* Media queries for responsiveness */
 @media (max-width: 1200px) {
   .grid {
     grid-template-columns: repeat(4, 1fr); /* 4 items per row for smaller screens */

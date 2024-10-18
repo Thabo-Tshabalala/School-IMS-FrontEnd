@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 // Import Angular Material modules
 import { MatCardModule } from '@angular/material/card'; 
@@ -15,6 +17,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { RequestsComponent } from './requests/requests.component'; 
 import { ProductService } from './services/product.service';
 import { RequestService } from './services/request.service'; 
+import { AdminRequestsComponent } from './admin-requests/admin-requests.component'; // Update the path as necessary
 
 // Import routes
 import { routes } from './app.routes';
@@ -25,16 +28,18 @@ import { routes } from './app.routes';
     // LoginComponent,
     // InventoryComponent,
     // RequestsComponent //
+    
+    
   ],
   imports: [
+    MatDialogModule,
     BrowserModule,
     CommonModule,
+  
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    
-
     MatCardModule,  
     MatButtonModule 
   ],
