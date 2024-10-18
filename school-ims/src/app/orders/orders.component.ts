@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { OrderService } from '../services/orders.service'; 
 import { Order } from '../models/order.model'; 
 import { User } from '../models/user.model';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   standalone: true,
@@ -67,5 +69,37 @@ export class OrdersComponent implements OnInit {
   onFilterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement; 
     this.filter = selectElement.value as 'All' | 'Pending' | 'Approved' | 'Rejected'; 
+  }
+
+  // Method to generate and download the PDF
+  generatePDF(): void {
+  
+    setTimeout(() => {
+      const pdf = new jsPDF();
+      const orderElement = document.getElementById('orderDetails'); 
+
+      if (orderElement) {
+        html2canvas(orderElement).then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          const imgWidth = 190; 
+          const pageHeight = pdf.internal.pageSize.height;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          const heightLeft = imgHeight;
+
+          let position = 0;
+
+        
+          pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+          position += heightLeft;
+
+          // To do , Need to add total amount of orders for users and make the UI clean
+          pdf.save('order-details.pdf');
+        }).catch(error => {
+          console.error('Error generating PDF:', error);
+        });
+      } else {
+        console.error('Order details element not found for PDF generation');
+      }
+    }, 100);
   }
 }
