@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ProductService } from '../services/product.service'; 
 import { Product } from '../models/product.model'; 
 import { CommonModule } from '@angular/common';
-// import { HeaderComponent } from "../../header/header.component";
-// import { FooterComponent } from "../../footer/footer.component";
 import { Router, RouterLink } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog'; 
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin',
@@ -14,11 +14,9 @@ import { Router, RouterLink } from '@angular/router';
     CommonModule, 
     ReactiveFormsModule, 
     RouterLink,
-    // HeaderComponent, 
-    // FooterComponent
   ],
-    templateUrl: './admin.component.html',
-    styleUrls: ['./admin.component.css']
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
   productForm!: FormGroup;
@@ -29,7 +27,8 @@ export class AdminComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private productService: ProductService,
-    private router: Router 
+    private router: Router,
+    private dialog: MatDialog 
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +63,6 @@ export class AdminComponent implements OnInit {
       const product: Product = this.productForm.value;
 
       if (this.isEditMode && this.currentProductId !== null) {
-        // Update product
         this.productService.updateProduct({ ...product, productId: this.currentProductId }).subscribe(
           (updatedProduct: Product) => {
             const index = this.products.findIndex(p => p.productId === this.currentProductId);
@@ -80,7 +78,7 @@ export class AdminComponent implements OnInit {
           }
         );
       } else {
-        // Add product
+
         this.productService.createProduct(product).subscribe(
           (newProduct: Product) => {
             this.products.push(newProduct);
@@ -104,16 +102,24 @@ export class AdminComponent implements OnInit {
 
   onDeleteProduct(productId: number | null): void {
     if (productId !== null) {
-      this.productService.deleteProduct(productId).subscribe(
-        () => {
-          this.products = this.products.filter(product => product.productId !== productId);
-          window.alert('Product deleted successfully!');
-        },
-        error => {
-          console.error('Error deleting product:', error);
-          window.alert('Failed to delete product. Please try again.');
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: { message: 'Deleting this product may result in changes to associated orders. Are you sure you want to delete this product?' }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.productService.deleteProduct(productId).subscribe(
+            () => {
+              this.products = this.products.filter(product => product.productId !== productId);
+              window.alert('Product deleted successfully!');
+            },
+            error => {
+              console.error('Error deleting product:', error);
+              window.alert('Failed to delete product. Please try again.');
+            }
+          );
         }
-      );
+      });
     }
   }
 
