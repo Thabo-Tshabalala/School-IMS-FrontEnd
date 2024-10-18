@@ -158,12 +158,14 @@ export class ReportComponent implements OnInit {
   }
 
   calculateTotalAmountSpent(): void {
-    this.totalAmountSpent = this.recentOrders.reduce((total, order) => {
-     
-      const productPrice = order.product?.price ?? 0;
-      return total + (productPrice * (order.quantity ?? 0)); 
-    }, 0);
-  }
+    this.totalAmountSpent = this.recentOrders
+        .filter(order => order.status === 'approved') 
+        .reduce((total, order) => {
+            const productPrice = order.product?.price ?? 0;
+            return total + (productPrice * (order.quantity ?? 0)); 
+        }, 0);
+}
+
 
   goBack(): void {
     this.location.back();
