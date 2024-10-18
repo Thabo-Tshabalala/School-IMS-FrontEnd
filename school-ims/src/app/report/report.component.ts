@@ -19,7 +19,7 @@ export class ReportComponent implements OnInit {
   mostOrderedProducts: { product: Product; totalOrdered: number }[] = [];
   lowStockProducts: { product: Product; currentStock: number; minThreshold: number }[] = [];
   inStockProducts: { product: Product; currentStock: number; minThreshold: number }[] = []; 
-  totalAmountSpent: number = 0; // Add this property to hold the total amount spent
+  totalAmountSpent: number = 0; 
   public barChartOptions: ChartOptions = {
     responsive: true,
     plugins: {
@@ -121,8 +121,10 @@ export class ReportComponent implements OnInit {
   
   calculateMostOrdered(orders: Order[]): { product: Product; totalOrdered: number }[] {
     const productCounts: { [key: number]: number } = {};
-
-    orders.forEach(order => {
+  
+    const approvedOrders = orders.filter(order => order.status === 'approved');
+  
+    approvedOrders.forEach(order => {
       if (order.product && order.product.productId) {
         const productId = order.product.productId;
         productCounts[productId] = (productCounts[productId] || 0) + (order.quantity || 0);
@@ -130,26 +132,27 @@ export class ReportComponent implements OnInit {
         console.warn(`Order does not have a valid product:`, order);
       }
     });
-
+  
     const mostOrdered = Object.entries(productCounts).map(([productIdStr, totalOrdered]) => {
       const productId = Number(productIdStr);
-      const order = orders.find(o => o.product && o.product.productId === productId);
-
+      const order = approvedOrders.find(o => o.product && o.product.productId === productId);
+  
       if (!order) {
         console.warn(`Order not found for product id: ${productId}`);
         return null; 
       }
-
+  
       return {
         product: order.product,
         totalOrdered: totalOrdered,
       };
     }).filter((item): item is { product: Product; totalOrdered: number } => item !== null);
-
+  
     mostOrdered.sort((a, b) => b.totalOrdered - a.totalOrdered);
-
+  
     return mostOrdered;
   }
+  
 
   updateChartData(): void {
     this.barChartData.labels = this.mostOrderedProducts.map(item => item.product.name);
