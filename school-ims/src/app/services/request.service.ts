@@ -54,4 +54,12 @@ deleteRequest(id: number): Observable<boolean> {
   );
 }
 
+// NotificationCount
+getNotificationCount(): Observable<number> {
+  return this.httpClient.get<number>(`${this.apiUrl}/notificationCount`).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
 }
