@@ -1,0 +1,109 @@
+/* Flex container for inline elements */
+.inline-flex {
+    display: inline-flex;
+    align-items: center; /* Center items vertically */
+}
+
+/* Background color utility */
+.bg-white {
+    background-color: #ffffff00; /* Use hex for consistency */
+}
+
+
+
+/* Rounded styles */
+.rounded-full {
+    border-radius: 9999px; /* Full rounded */
+}
+
+/* Shadow effect */
+.shadow-sm {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Positioning utility */
+.relative {
+    position: relative; /* Positioning context for child elements */
+}
+
+/* Padding utility */
+.p-2 {
+    padding: 0.5rem; /* Padding size */
+}
+
+
+.w-6 {
+    width: 1.5rem; 
+}
+
+.h-6 {
+    height: 1.5rem; 
+}
+
+.text-gray-600 {
+    color: #4b5563;
+}
+
+.text-gray-700 {
+    color: #374151; 
+}
+
+.text-gray-400 {
+    color: #9ca3af;
+}
+
+.absolute {
+    position: absolute; 
+}
+
+.-top-1 {
+    top: -0.25rem;
+}
+
+.-right-1 {
+    right: -0.25rem; 
+}
+
+.w-3 {
+    width: 0.75rem; 
+}
+
+.h-3 {
+    height: 0.75rem; 
+}
+
+.border-white {
+    border-color: #ffffff;
+}
+
+
+.text-sm {
+    font-size: 0.875rem;          
+    margin-left: -37px;              
+    color: white;                
+    font-style: normal;           
+    background-color: #286ed748;       
+    padding: 5px 10px;               
+    border-radius: 20%;                
+    display: inline-flex;            
+    justify-content: center;          
+    align-items: center;        
+    min-width: 20px;                  
+    height: 20px;                    
+}
+
+
+
+.font-medium {
+    font-weight: 500;
+}
+
+
+.border-l {
+    border-left-width: 1px;
+}
+
+
+.border-gray-200 {
+    border-color: #e5e7eb;
+}
