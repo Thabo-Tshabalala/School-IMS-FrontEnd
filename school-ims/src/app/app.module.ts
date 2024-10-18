@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
+
 // Import Angular Material modules
 import { MatCardModule } from '@angular/material/card'; 
 import { MatButtonModule } from '@angular/material/button';
@@ -26,16 +27,17 @@ import { routes } from './app.routes';
     // LoginComponent,
     // InventoryComponent,
     // RequestsComponent //
+    
+    
   ],
   imports: [
     BrowserModule,
     CommonModule,
+  
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    
-
     MatCardModule,  
     MatButtonModule 
   ],

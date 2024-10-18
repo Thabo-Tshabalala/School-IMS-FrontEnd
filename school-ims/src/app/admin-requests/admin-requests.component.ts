@@ -16,8 +16,8 @@ export class AdminRequestsComponent implements OnInit {
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 5;
-
   requests: Order[] = []; 
+  alertMessage: string | null = null;  
 
   constructor(private location: Location, private orderService: OrderService) {}
 
@@ -48,9 +48,18 @@ export class AdminRequestsComponent implements OnInit {
         this.requests = this.requests.map(req =>
           req.orderId === updatedOrder.orderId ? updatedOrder : req
         );
+        this.alertMessage = 'Order approved successfully.';
+        setTimeout(() => this.alertMessage = null, 3000); 
       },
       error: (err) => {
-        console.error('Failed to approve order:', err);
+        if (err.error === 'Error: Not enough stock for product.') {
+          this.alertMessage = 'Cannot approve the order. The product stock is insufficient.';
+        } else if (err.status === 404) {
+          this.alertMessage = 'Order not found.';
+        } else {
+          this.alertMessage = 'Failed to approve the order. Please try again.';
+        }
+        setTimeout(() => this.alertMessage = null, 5000); 
       }
     });
   }
@@ -61,9 +70,13 @@ export class AdminRequestsComponent implements OnInit {
         this.requests = this.requests.map(req =>
           req.orderId === updatedOrder.orderId ? updatedOrder : req
         );
+        this.alertMessage = 'Order declined successfully.';
+        setTimeout(() => this.alertMessage = null, 3000);  
       },
       error: (err) => {
         console.error('Failed to decline order:', err);
+        this.alertMessage = 'Failed to decline the order. Please try again.';
+        setTimeout(() => this.alertMessage = null, 5000); 
       }
     });
   }

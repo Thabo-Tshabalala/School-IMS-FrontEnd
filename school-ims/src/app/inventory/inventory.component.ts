@@ -74,16 +74,22 @@ export class InventoryComponent implements OnInit {
   }
 
   requestProduct(product: Product): void {
+   
+    if (product.stockQuantity! <= 0) {
+      alert(`Product "${product.name}" is out of stock and cannot be requested.`);
+      return; 
+    }
+  
     const newRequest: Request = {
       requestId: null,
       user: this.currentUser, 
       product: product,
-      quantity: 0, 
+      quantity: 1,
       status: 'pending',
     };
-
+  
     console.log('Request Payload:', newRequest);
-
+  
     this.requestService.createRequest(newRequest).subscribe(
       () => {
         console.log('Request saved successfully:', newRequest);
@@ -100,6 +106,7 @@ export class InventoryComponent implements OnInit {
       }
     );
   }
+  
 
   ngOnDestroy(): void {
     if (this.userSubscription) {

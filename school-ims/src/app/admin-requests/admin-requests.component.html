@@ -1,9 +1,15 @@
 <div class="container">
     <h1 class="title">Items Request</h1>
-    
+
     <button class="btn btn-secondary" (click)="goBack()">
         <i class="fas fa-arrow-left"></i> Back
     </button>
+
+
+    <div *ngIf="alertMessage" class="alert alert-danger" role="alert">
+        {{ alertMessage }}
+    </div>
+
 
     <div class="header">
         <div class="search-bar">
@@ -21,6 +27,7 @@
         </select>
     </div>
 
+    <!-- Request Table Here ,To do?? Add MSO -->
     <table class="product-table">
         <thead>
             <tr>
@@ -63,11 +70,10 @@
                         Decline
                     </button>
                 </td>
-                
-                
             </tr>
         </tbody>
     </table>
+
 
     <div class="pagination">
         <button
