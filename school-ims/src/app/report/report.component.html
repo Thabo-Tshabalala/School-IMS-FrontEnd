@@ -1,0 +1,112 @@
+<div class="container">
+    <h1 class="title">School Inventory Dashboard</h1>
+    <button class="btn btn-primary" (click)="goBack()">Go Back</button>
+    <div class="grid">
+      <div class="card col-span-full lg-col-span-2">
+        <div class="card-header">
+          <h2 class="card-title">Most Ordered Products</h2>
+          <i class="icon-bar-chart"></i>
+        </div>
+        <div class="card-content">
+          <div>
+            <canvas baseChart
+                    [datasets]="barChartData.datasets"
+                    [labels]="barChartData.labels"
+                    [options]="barChartOptions">
+            </canvas>
+          </div>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Recent Orders</h2>
+          <i class="icon-shopping-cart"></i>
+        </div>
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of recentOrders">
+                <td>{{ order.product?.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.orderDate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Low Stock Products</h2>
+          <i class="icon-package"></i>
+        </div>
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Current Stock</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of lowStockProducts">
+                <td>{{ product.product.name }}</td>
+                <td>{{ product.currentStock }}</td>
+                <td>
+                  <span class="badge badge-destructive">Low Stock</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">In Stock Products</h2>
+          <i class="icon-check-circle"></i>
+        </div>
+        <div class="card-content">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Current Stock</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of inStockProducts">
+                <td>{{ product.product.name }}</td>
+                <td>{{ product.currentStock }}</td>
+                <td>
+                  <span class="badge badge-success">In Stock</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  
+      <!-- New Card for Total Amount Spent -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Total Amount Spent</h2>
+          <i class="icon-money"></i>
+        </div>
+        <div class="card-content">
+            <p class="total-amount">{{ totalAmountSpent | currency: 'ZAR ' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

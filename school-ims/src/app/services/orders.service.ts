@@ -29,5 +29,7 @@ export class OrderService {
   declineOrder(orderId: number): Observable<Order> {
     return this.httpClient.put<Order>(`${this.apiUrl}/decline/${orderId}`, null);
   }
-
+  getMostOrderedProducts(): Observable<Order[]> {
+    return this.httpClient.get<Order[]>(`${this.apiUrl}/most-ordered`);
+  }
 }

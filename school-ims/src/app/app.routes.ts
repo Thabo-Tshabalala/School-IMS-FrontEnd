@@ -8,6 +8,7 @@ import { InventoryComponent } from './inventory/inventory.component';
 import { RequestsComponent } from './requests/requests.component';
 import { OrdersComponent } from './orders/orders.component';
 import { AdminRequestsComponent } from './admin-requests/admin-requests.component';
+import { ReportComponent } from './report/report.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, 
@@ -19,5 +20,6 @@ export const routes: Routes = [
   {path:'inventory', component:InventoryComponent},
   {path:'requests', component:RequestsComponent},
   {path: 'orders', component :OrdersComponent},
-  {path:'user-requests',component:AdminRequestsComponent}
+  {path:'user-requests',component:AdminRequestsComponent},
+  {path:'report',component: ReportComponent}
 ];
