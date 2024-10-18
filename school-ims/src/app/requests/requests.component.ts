@@ -13,6 +13,8 @@ import { NavigationComponent } from '../navigation/navigation.component';
 import { forkJoin } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { Order } from '../models/order.model';
+import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Import ConfirmDialogComponent
 
 @Component({
   standalone: true,
@@ -42,7 +44,8 @@ export class RequestsComponent implements OnInit {
     private productService: ProductService,
     private userService: UserService,
     private orderService: OrderService,
-    private router: Router 
+    private router: Router,
+    private dialog: MatDialog // Inject MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +97,37 @@ export class RequestsComponent implements OnInit {
     }
   }
 
+
+openConfirmDialog(totalQuantity: number): void {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '300px',
+    data: {
+      title: 'Confirm Order',  
+      message: `You are about to order ${totalQuantity} products. Confirm or cancel?`,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: 'primary', 
+    },
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.createOrder();
+    } else {
+      console.log('Order canceled');
+    }
+  });
+}
+
+
   createRequest(): void {
+    const totalQuantity = this.requests.reduce((total, request) => total + (request.quantity || 0), 0);
+    
+
+    this.openConfirmDialog(totalQuantity);
+  }
+
+  createOrder(): void {
     this.isLoading = true;
     this.isOrdering = true;
   
@@ -104,7 +137,7 @@ export class RequestsComponent implements OnInit {
     });
   
     if (outOfStockRequests.length > 0) {
-      alert('Nah, we can’t do that. Some requested items exceed available stock.');
+      alert('Some requested items exceed available stock. Please adjust your order.');
       this.isLoading = false;
       this.isOrdering = false;
       return;
@@ -134,7 +167,6 @@ export class RequestsComponent implements OnInit {
           (newOrder) => {
             alert('Order created successfully!');
             this.router.navigate(['/orders']); 
-            console.log('New Order Here:', newOrder);
           },
           (error) => {
             console.error('Error creating order', error);
@@ -153,7 +185,6 @@ export class RequestsComponent implements OnInit {
     );
   }
   
-
   removeRequest(requestId: number | null): void {
     if (requestId) {
       this.requestService.deleteRequest(requestId).subscribe({

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 // Import Angular Material modules
@@ -31,6 +32,7 @@ import { routes } from './app.routes';
     
   ],
   imports: [
+    MatDialogModule,
     BrowserModule,
     CommonModule,
   
