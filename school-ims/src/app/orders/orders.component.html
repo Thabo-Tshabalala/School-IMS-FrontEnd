@@ -1,26 +1,29 @@
 <app-navigation></app-navigation>
-<div class="container mx-auto p-4">
+<div class="container mx-auto p-4" id="orderDetails">
   <h1 class="text-xl font-bold mb-4">Your Orders</h1>
+  <button (click)="generatePDF()" class="btn btn-primary mb-4">Download PDF</button>
+
   <div class="flex justify-between items-center mb-4">
-    <p class="text-gray-600">Showing {{ filteredRequests.length }} orders</p> 
-    <select (change)="onFilterChange($event)" class="w-[180px] select"> 
+    <p class="text-gray-600">Showing {{ filteredRequests.length }} orders</p>
+    <select (change)="onFilterChange($event)" class="w-[180px] select">
       <option value="All">All</option>
       <option value="Pending">Pending</option>
       <option value="Approved">Approved</option>
       <option value="Rejected">Rejected</option>
     </select>
   </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div *ngFor="let order of filteredRequests" class="card"> 
+    <div *ngFor="let order of filteredRequests" class="card">
       <div class="card-header">
-        <h2>Order #{{ order.orderId }}</h2> 
+        <h2>Order #{{ order.orderId }}</h2>
       </div>
       <div class="card-content">
         <div class="flex items-center space-x-4">
-          <img 
-            [src]="order.product?.imageUrl || 'default-image-url.jpg'" 
-            [alt]="order.product ? 'Order ' + order.product.imageUrl : 'Default Alt Text'" 
-            class="w-24 h-24 object-cover rounded" 
+          <img
+            [src]="order.product?.imageUrl || 'default-image-url.jpg'"
+            [alt]="order.product ? 'Order ' + order.product.imageUrl : 'Default Alt Text'"
+            class="w-24 h-24 object-cover rounded"
           />
           <div class="flex-1">
             <div class="flex items-center space-x-2 mb-2">
@@ -29,7 +32,7 @@
             </div>
             <div class="flex items-center space-x-2 mb-2">
               <span class="icon-calendar"></span>
-              <span>{{ order.orderDate | date: 'shortDate' }}</span> 
+              <span>{{ order.orderDate | date: 'shortDate' }}</span>
             </div>
             <span class="badge {{ statusColors[order.status] }}">{{ order.status }}</span>
           </div>
