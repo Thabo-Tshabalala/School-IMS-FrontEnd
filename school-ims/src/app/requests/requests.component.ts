@@ -13,8 +13,8 @@ import { NavigationComponent } from '../navigation/navigation.component';
 import { forkJoin } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { Order } from '../models/order.model';
-import { MatDialog } from '@angular/material/dialog'; // Import MatDialog
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; // Import ConfirmDialogComponent
+import { MatDialog } from '@angular/material/dialog'; 
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component'; 
 
 @Component({
   standalone: true,
@@ -38,6 +38,7 @@ export class RequestsComponent implements OnInit {
   isOrdering = false;
   user: User | null = null;
   products: Product[] = [];
+  isDialogOpen = false;
 
   constructor(
     private requestService: RequestService,
@@ -45,7 +46,7 @@ export class RequestsComponent implements OnInit {
     private userService: UserService,
     private orderService: OrderService,
     private router: Router,
-    private dialog: MatDialog // Inject MatDialog
+    private dialog: MatDialog 
   ) {}
 
   ngOnInit(): void {
@@ -90,83 +91,107 @@ export class RequestsComponent implements OnInit {
       );
 
     if (productRequests.length > 0) {
-      forkJoin(productRequests).subscribe(() => {
-      });
+      forkJoin(productRequests).subscribe(() => {});
     } else {
       console.warn('No valid product requests to load details for.');
     }
   }
 
-
-openConfirmDialog(totalQuantity: number): void {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '300px',
-    data: {
-      title: 'Confirm Order',  
-      message: `You are about to order ${totalQuantity} products. Confirm or cancel?`,
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: 'primary', 
-    },
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.createOrder();
-    } else {
-      console.log('Order canceled');
+  openConfirmDialog(totalQuantity: number): void {
+    if (this.isDialogOpen) {
+      return; 
     }
-  });
-}
 
+    this.isDialogOpen = true;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Confirm Order',
+        message: `You are about to order ${totalQuantity} products. Confirm or cancel?`,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: 'primary',
+      },
+    });
 
-  createRequest(): void {
-    const totalQuantity = this.requests.reduce((total, request) => total + (request.quantity || 0), 0);
-    
-
-    this.openConfirmDialog(totalQuantity);
+    dialogRef.afterClosed().subscribe((result: boolean) => { 
+      this.isDialogOpen = false; 
+      if (result) {
+        const groupedRequests = this.groupRequestsByProductType(this.requests);
+        this.processGroupedRequests(groupedRequests);
+      } else {
+        console.log('Order canceled');
+      }
+    });
   }
 
-  createOrder(): void {
+  createRequest(): void {
+    const groupedRequests = this.groupRequestsByProductType(this.requests);
+    const totalQuantity = this.requests.reduce((total, request) => total + (request.quantity || 0), 0);
+
+    // Open the confirm dialog
+    this.openConfirmDialog(totalQuantity); 
+  }
+
+  groupRequestsByProductType(requests: Request[]): { [key: string]: Request[] } {
+    return requests.reduce((grouped, request) => {
+      const productType = request.product?.category || 'Unknown'; 
+      if (!grouped[productType]) {
+        grouped[productType] = [];
+      }
+      grouped[productType].push(request);
+      return grouped;
+    }, {} as { [key: string]: Request[] });
+  }
+
+  processGroupedRequests(groupedRequests: { [key: string]: Request[] }): void {
+    const productTypes = Object.keys(groupedRequests);
+
+    productTypes.forEach((type) => {
+      const requestsForType = groupedRequests[type];
+      this.processRequestsForType(requestsForType, type);
+    });
+  }
+
+  processRequestsForType(requests: Request[], productType: string): void {
     this.isLoading = true;
     this.isOrdering = true;
-  
-    const outOfStockRequests = this.requests.filter((request) => {
+
+    const outOfStockRequests = requests.filter((request) => {
       const productInStock = this.products.find(product => product.productId === request.requestId);
       return productInStock && request.quantity > productInStock.stockQuantity!;
     });
-  
+
     if (outOfStockRequests.length > 0) {
-      alert('Some requested items exceed available stock. Please adjust your order.');
+      alert(`Some ${productType} items exceed available stock. Please adjust your order.`);
       this.isLoading = false;
       this.isOrdering = false;
       return;
     }
-  
-    const updateRequestsObservables = this.requests.map((request) => {
+
+    const updateRequestsObservables = requests.map((request) => {
       const requestToUpdate = { ...request, user: this.user };
-  
+
       return this.requestService.updateRequest(requestToUpdate).pipe(
         tap((updatedRequest: Request) => {
           this.removeRequest(updatedRequest.requestId);
         })
       );
     });
-  
+
     forkJoin(updateRequestsObservables).subscribe(
       () => {
         const order: Order = {
           orderDate: new Date().toISOString().split('T')[0],
           user: this.user,
           status: 'pending',
-          quantity: this.requests.reduce((total, request) => total + (request.quantity || 0), 0),
-          product: this.products.length > 0 ? this.products[0] : null,
+          quantity: requests.reduce((total, request) => total + (request.quantity || 0), 0),
+          product: requests.length > 0 ? requests[0].product : null,
         };
-  
+
         this.orderService.createOrder(order).subscribe(
           (newOrder) => {
-            alert('Order created successfully!');
-            this.router.navigate(['/orders']); 
+          this.router.navigate(['/orders']);
           },
           (error) => {
             console.error('Error creating order', error);
@@ -184,7 +209,7 @@ openConfirmDialog(totalQuantity: number): void {
       }
     );
   }
-  
+
   removeRequest(requestId: number | null): void {
     if (requestId) {
       this.requestService.deleteRequest(requestId).subscribe({
