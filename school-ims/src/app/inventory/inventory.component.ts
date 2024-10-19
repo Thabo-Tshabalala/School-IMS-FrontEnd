@@ -93,8 +93,6 @@ export class InventoryComponent implements OnInit {
     this.requestService.createRequest(newRequest).subscribe(
       () => {
         console.log('Request saved successfully:', newRequest);
-        alert(`Product "${product.name}" has been requested successfully!`);
-        this.router.navigate(['/requests']);
       },
       (error) => {
         if (error.status === 400 && error.error === 'Error: Product has already been requested.') {
