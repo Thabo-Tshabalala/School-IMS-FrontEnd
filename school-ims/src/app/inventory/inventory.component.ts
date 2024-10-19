@@ -21,7 +21,9 @@ import { Subscription } from 'rxjs';
 })
 export class InventoryComponent implements OnInit {
   products: Product[] = [];
+  filteredProducts: Product[] = []; 
   isLoading = true;
+  searchQuery = ''; 
   currentUser: User | null = null; 
   private userSubscription: Subscription | undefined;
 
@@ -41,7 +43,8 @@ export class InventoryComponent implements OnInit {
     this.isLoading = true; 
     this.productService.getProducts().subscribe(
       (data: Product[]) => {
-        this.products = data; 
+        this.products = data;
+        this.filteredProducts = data; 
       },
       (error) => {
         console.error('Error loading products', error);
@@ -50,6 +53,13 @@ export class InventoryComponent implements OnInit {
       () => {
         this.isLoading = false;
       }
+    );
+  }
+
+  filterProducts(): void {
+    const query = this.searchQuery.toLowerCase();
+    this.filteredProducts = this.products.filter(product => 
+      product.name!.toLowerCase().includes(query)
     );
   }
 
@@ -74,7 +84,6 @@ export class InventoryComponent implements OnInit {
   }
 
   requestProduct(product: Product): void {
-   
     if (product.stockQuantity! <= 0) {
       alert(`Product "${product.name}" is out of stock and cannot be requested.`);
       return; 
@@ -87,8 +96,6 @@ export class InventoryComponent implements OnInit {
       quantity: 1,
       status: 'pending',
     };
-  
-    console.log('Request Payload:', newRequest);
   
     this.requestService.createRequest(newRequest).subscribe(
       () => {
@@ -104,7 +111,6 @@ export class InventoryComponent implements OnInit {
       }
     );
   }
-  
 
   ngOnDestroy(): void {
     if (this.userSubscription) {

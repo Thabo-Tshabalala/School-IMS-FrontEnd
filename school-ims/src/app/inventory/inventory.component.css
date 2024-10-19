@@ -8,6 +8,7 @@
 
 nav {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
@@ -31,7 +32,7 @@ nav {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Ensures 5 items per row */
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
   padding: 1.5rem;
 }
@@ -39,13 +40,13 @@ nav {
 .product-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Ensures the content fills the card evenly */
+  justify-content: space-between;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   background-color: white;
   transition: transform 0.1s;
-  height: 100%; /* Ensures all cards have the same height */
+  height: 100%;
 }
 
 .product-card:hover {
@@ -54,39 +55,39 @@ nav {
 
 .product-image {
   width: 100%;
-  height: 100%; /* Set a larger image height */
+  height: 100%; 
   object-fit: cover;
   border-radius: 4px;
   margin-bottom: 0.5rem;
 }
 
 mat-card-title {
-  font-size: 1rem; /* Set a consistent font size */
+  font-size: 1rem;
   font-weight: 500;
   margin-bottom: 0.4rem;
-  text-align: center; /* Ensure titles are aligned */
+  text-align: center; 
 }
 
 mat-card-content {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Fills available space in the card */
+  flex-grow: 1;
 }
 
 mat-card-content p {
   margin: 0.2rem 0;
   font-size: 0.85rem;
   color: #333;
-  text-align: center; /* Ensure content is aligned */
-  word-wrap: break-word; /* Prevent text overflow */
-  white-space: normal;   /* Ensure text wraps within container */
+  text-align: center;
+  word-wrap: break-word; 
+  white-space: normal;   
 }
 
 mat-card-actions {
   display: flex;
-  justify-content: center; /* Centers the button */
+  justify-content: center;
   align-items: center;
-  margin-top: auto; /* Push the button to the bottom of the card */
+  margin-top: auto; 
 }
 
 button.request-btn {
@@ -100,7 +101,7 @@ button.request-btn {
   transition: background-color 0.3s ease;
   width: 100%;
   height: 40px;
-  margin-top: auto; /* Ensures button stays at the bottom */
+  margin-top: auto; 
 }
 
 button.request-btn:hover {
@@ -111,31 +112,51 @@ button:focus {
   outline: none;
 }
 
-/* Media queries for responsiveness */
+
 @media (max-width: 1200px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr); /* 4 items per row for smaller screens */
+    grid-template-columns: repeat(4, 1fr); 
   }
 }
 
 @media (max-width: 992px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 items per row for smaller screens */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 items per row for smaller screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 576px) {
   .grid {
-    grid-template-columns: 1fr; /* 1 item per row for very small screens */
+    grid-template-columns: 1fr;
   }
 
   .inventory-description {
     max-height: 40px;
   }
 }
+.search-bar {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 20%;
+  margin-left: 5px;
+  align-items: end;  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #080808;
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .search-input {
+    width: 100%;
+  }
+}
+
