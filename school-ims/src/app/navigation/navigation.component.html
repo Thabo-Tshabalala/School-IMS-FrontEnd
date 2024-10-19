@@ -1,12 +1,20 @@
 <nav>
   <ul>
-    <li><a routerLink="/dashboard">Dashboard</a></li>
-    <li><a routerLink="/inventory">Manage Inventory</a></li>
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+    </li>
+    <li>
+      <a routerLink="/inventory" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Manage Inventory</a>
+    </li>
     <li class="requests-item">
-      <a routerLink="/requests">Requests</a>
+      <a routerLink="/requests" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Requests</a>
       <app-notification-icon [count]="notificationCount"></app-notification-icon>
     </li>
-    <li><a routerLink="/orders">Orders</a></li>
-    <li><a routerLink="/profile">Profile</a></li>
+    <li>
+      <a routerLink="/orders" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Orders</a>
+    </li>
+    <li>
+      <a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a>
+    </li>
   </ul>
 </nav>
