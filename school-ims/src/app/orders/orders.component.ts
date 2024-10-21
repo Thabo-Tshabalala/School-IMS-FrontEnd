@@ -17,6 +17,7 @@ import html2canvas from 'html2canvas';
 export class OrdersComponent implements OnInit {
   requests: Order[] = []; 
   filter: 'All' | 'pending' | 'approved' | 'declined' = 'All';
+  totalAmountSpent: number = 0; 
   
   statusColors: { [key: string]: string } = {
     approved: 'badge-approved',
@@ -39,6 +40,7 @@ export class OrdersComponent implements OnInit {
           this.orderService.getOrdersByUserId(userID).subscribe(
             (orders: Order[]) => {
               this.requests = orders.filter(order => order.user?.userID !== undefined);
+              this.calculateTotalAmountSpent();  
             },
             (error) => {
               console.error('Error fetching orders:', error);
@@ -71,28 +73,27 @@ export class OrdersComponent implements OnInit {
     this.filter = selectElement.value as 'All' | 'pending' | 'approved' | 'declined'; 
   }
 
-  // Method to generate and download the PDF
+  calculateTotalAmountSpent(): void {
+    this.totalAmountSpent = this.requests.reduce((sum, order) => sum + (order.product?.price || 0), 0);
+  }
+
   generatePDF(): void {
-  
     setTimeout(() => {
       const pdf = new jsPDF();
-      const orderElement = document.getElementById('orderDetails'); 
-
+      const orderElement = document.getElementById('orderDetails');
+      
       if (orderElement) {
         html2canvas(orderElement).then((canvas) => {
           const imgData = canvas.toDataURL('image/png');
           const imgWidth = 190; 
           const pageHeight = pdf.internal.pageSize.height;
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          const heightLeft = imgHeight;
-
           let position = 0;
-
-        
           pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-          position += heightLeft;
+          position += imgHeight;
+          pdf.setFontSize(14);
+          pdf.text('Potential Cost: R ' + this.totalAmountSpent.toFixed(2), 10, position + 10);
 
-          // To do , Need to add total amount of orders for users and make the UI clean
           pdf.save('order-details.pdf');
         }).catch(error => {
           console.error('Error generating PDF:', error);

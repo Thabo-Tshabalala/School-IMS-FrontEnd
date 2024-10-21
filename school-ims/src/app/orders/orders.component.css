@@ -44,6 +44,7 @@ h2{
 
 .items-center {
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .space-x-4 > * + * {
