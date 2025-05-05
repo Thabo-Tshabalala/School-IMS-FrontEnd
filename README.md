@@ -8,24 +8,24 @@ User Side (Teachers & Staff)
 
 Account Management
 
--Register new accounts
--Update personal and contact information
--Secure login with role-based access
+- Register new accounts
+- Update personal and contact information
+- Secure login with role-based access
 
 
 Inventory Browsing
 
--View available items in the inventory
--Check stock status (available/out of stock)
--Search and filter functionality
+- View available items in the inventory
+- Check stock status (available/out of stock)
+- Search and filter functionality
 
 
 Order Management
 
--Request items from inventory
--Track request status (pending, approved, declined)
--View order history
--Download order lists as reports
+- Request items from inventory
+- Track request status (pending, approved, declined)
+- View order history
+- Download order lists as reports
 
 
 
@@ -33,44 +33,44 @@ Admin Side
 
 Inventory Control
 
--Complete CRUD operations for inventory items
--Add new products with descriptions and images
--Update product prices (not visible to regular users)
--Manage stock levels
+- Complete CRUD operations for inventory items
+- Add new products with descriptions and images
+- Update product prices (not visible to regular users)
+- Manage stock levels
 
 
 Order Processing
 
--Review incoming item requests
--Approve or decline requests
+- Review incoming item requests
+- Approve or decline requests
 
 Analytics & Reporting
 
--View most frequently ordered items
--Interactive data visualization with charts and graphs
--Generate and export inventory reports
+- View most frequently ordered items
+- Interactive data visualization with charts and graphs
+- Generate and export inventory reports
 
 
 
 Technology Stack
 
--Backend
-Java 17+ will work
--Spring Boot 3.x
--JPA for ORM
--Maven for dependency management
+- Backend
+- Java 17+ will work
+- Spring Boot 3.x
+- JPA for ORM
+- Maven for dependency management
 
 
 Frontend
 
--Angular 15+
--TypeScript
--Chart.js for data visualization
+- Angular 15+
+- TypeScript
+- Chart.js for data visualization
 
 
 Database
 
--MySQL Workbench
+- MySQL Workbench
 
 Getting Started
 Prerequisites
